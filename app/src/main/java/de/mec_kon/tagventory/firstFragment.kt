@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import android.widget.ArrayAdapter
 
 
 
@@ -18,10 +17,11 @@ class firstFragment : Fragment() {
         var XMLentryList: ListView?
         XMLentryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
-        val list1 = arrayListOf<String>("a", "b", "c")
+        val testItems = arrayListOf<String>("a", "b", "c")
+        val testTags = arrayListOf<String>("x", "y", "z")
 
 
-        val adapter = customAdapter(activity, list1)
+        val adapter = customAdapter(activity, testItems, testTags)
         XMLentryList.adapter = adapter
 
 
