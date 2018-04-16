@@ -17,12 +17,14 @@ class firstFragment : Fragment() {
         var XMLentryList: ListView?
         XMLentryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
-        val testItems = arrayListOf<String>("a", "b", "c")
-        val testTags = arrayListOf<String>("x", "y", "z")
+
+        val item = InventoryItem("test", arrayListOf("a", "b", "c"))
+        val item2 = InventoryItem("test2", arrayListOf("d", "e", "f"))
+        val list = arrayListOf<InventoryItem>(item, item2)
 
 
-        val adapter = customAdapter(activity, testItems, testTags)
-        XMLentryList.adapter = adapter
+        val adapter = InventoryListAdapter(activity, list)
+        XMLentryList.adapter = adapter.innerAdapter
 
 
 
