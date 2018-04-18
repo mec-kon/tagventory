@@ -18,9 +18,10 @@ class firstFragment : Fragment() {
         XMLentryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
 
-        val item = InventoryItem("test", arrayListOf("a", "b", "c"))
-        val item2 = InventoryItem("test2", arrayListOf("d", "e", "f"))
-        val list = arrayListOf<InventoryItem>(item, item2)
+        val item = InventoryItem("test", arrayListOf("tag1", "tag2", "tag3", "tag4", "tag5"))
+        val item2 = InventoryItem("test2", arrayListOf("one", "two", "three"))
+        val item3 = InventoryItem("test2", arrayListOf("eins", "zwei", "drei", "vier", "fuenf", "sechs"))
+        val list = arrayListOf<InventoryItem>(item, item2, item3)
 
 
         val adapter = InventoryListAdapter(activity, list)

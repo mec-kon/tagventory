@@ -41,13 +41,14 @@ class InventoryListAdapter(context: Activity, items: ArrayList<InventoryItem>){
 
         inventoryListItemNameXML.text = names[position]
 
-        for (i in 0 ..  tags.size){
+        for (i in 0 until tags[position].size){
             val textView = TextView(context)
             textView.text = tags[position][i]
             inventoryListItemTagListXML.addView(textView)
         }
 
-            return rowView
+        return rowView
+
         }
     }
 }
