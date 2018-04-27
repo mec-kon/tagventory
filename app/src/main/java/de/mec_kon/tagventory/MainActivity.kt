@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         val manager = fragmentManager
-        val first = firstFragment()
+        val first = FirstFragment()
         manager.beginTransaction().replace(R.id.fragment, first).commit()
     }
 
