@@ -58,9 +58,9 @@ class FilterExpanderAdapter(val context: Activity, val listOfHeaderData: ArrayLi
         return true
     }
 
-
     override fun getChildrenCount(groupPosition: Int): Int {
-        return 1
+        //elvis operator
+        return hashMapOfChildData[listOfHeaderData[groupPosition]]?.size ?: 0
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): Any {
@@ -70,64 +70,5 @@ class FilterExpanderAdapter(val context: Activity, val listOfHeaderData: ArrayLi
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
         return childPosition.toLong()
     }
-
-
-
-
-
-    /*
-    override fun getGroup(p0: Int): Any {
-        return listOfHeaderData[p0]
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun isChildSelectable(p0: Int, p1: Int): Boolean {
-        return true
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun hasStableIds(): Boolean {
-        return false
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getChildrenCount(p0: Int): Int {
-        return 1 //hashMapOfChildData[listOfHeaderData[p0]]!!.size
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getChild(p0: Int, p1: Int): Any {
-        return 0
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getGroupId(p0: Int): Long {
-        return p0.toLong()
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getChildView(p0: Int, p1: Int, p2: Boolean, p3: View?, p4: ViewGroup?): View {
-        val headerTitle = "chil"// getChild(p0, p1) as String
-        val inflater = context.layoutInflater
-        val itemView = inflater.inflate(R.layout.filter_list_item, p4, true)
-
-        val listHeaderText = itemView.findViewById<View>(R.id.filter_list_item_text) as TextView
-        listHeaderText.text = headerTitle
-
-        return itemView
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getChildId(p0: Int, p1: Int): Long {
-        return p1.toLong()
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getGroupCount(): Int {
-        return listOfHeaderData.size
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-    */
 
 }

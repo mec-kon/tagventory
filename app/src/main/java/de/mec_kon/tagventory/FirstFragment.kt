@@ -20,7 +20,7 @@ class FirstFragment : Fragment() {
         XMLentryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
 
-        val item = InventoryItem("test", arrayListOf("tag1", "tag2", "tag3", "tag4", "tag5"))
+        val item = InventoryItem("test", arrayListOf("tag1", "tag2", "tag3", "tag4", "tag5", "tag1", "tag2", "tag3", "tag4", "tag5", "tag1", "tag2", "tag3", "tag4", "tag5"))
         val item2 = InventoryItem("test2", arrayListOf("one", "two", "three"))
         val item3 = InventoryItem("test2", arrayListOf("eins", "zwei", "drei", "vier", "fuenf", "sechs"))
         val list = arrayListOf<InventoryItem>(item, item2, item3)
@@ -30,10 +30,9 @@ class FirstFragment : Fragment() {
         XMLentryList.adapter = adapter.innerAdapter
 
 
-        val header = arrayListOf<String>("element1")
-        val numbers = arrayListOf<String>("1", "2", "3")
-        val childmap = HashMap<String, ArrayList<String>>()
-        childmap.put(header[0], numbers)
+        val header = arrayListOf("element1")
+        val numbers = arrayListOf("1", "2", "3")
+        val childmap = hashMapOf(header[0] to numbers)
 
 
         val test = FilterExpanderAdapter(activity, header,  childmap )
