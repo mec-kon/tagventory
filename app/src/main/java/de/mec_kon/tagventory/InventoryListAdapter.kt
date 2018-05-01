@@ -25,11 +25,10 @@ class InventoryListAdapter(context: Activity, items: ArrayList<InventoryItem>) {
 
         override fun getView(position: Int, view: View?, parent: ViewGroup): View {
             val inflater = context.layoutInflater
-            val itemView = inflater.inflate(R.layout.single_inventory_list_item, null, true)
+            val innerView = inflater.inflate(R.layout.single_inventory_list_item, null, true)
+            val xmlInventoryListName = innerView.findViewById<View>(R.id.inventory_list_name) as TextView
+            val xmlInventoryListTags = innerView.findViewById<View>(R.id.inventory_list_tags) as LinearLayout
 
-
-            val inventoryListItemNameXML = itemView.findViewById<View>(R.id.inventory_list_name) as TextView
-            val inventoryListItemTagListXML = itemView.findViewById<View>(R.id.inventory_list_tags) as LinearLayout
 
             val names = arrayListOf<String>()
             val tags = arrayListOf<ArrayList<String>>()
@@ -38,24 +37,29 @@ class InventoryListAdapter(context: Activity, items: ArrayList<InventoryItem>) {
                 tags.add(i.tagList)
             }
 
-            inventoryListItemNameXML.text = names[position]
+
+            ////////// respective item name //////////
+
+            xmlInventoryListName.text = names[position]
+
+
+            ////////// respective tag list //////////
 
             for (i in 0 until tags[position].size) {
 
                 // add placeholder textview
-                var placeholderTextView = TextView(context)
+                val placeholderTextView = TextView(context)
                 placeholderTextView.setPadding(10,0,10,0)
-                inventoryListItemTagListXML.addView(placeholderTextView)
+                xmlInventoryListTags.addView(placeholderTextView)
 
                 // add textview
                 val tagView = inflater.inflate(R.layout.inventory_tag_item, null)
-                val textView = tagView.findViewById(R.id.tag_item) as TextView
-                textView.text = tags[position][i]
-                inventoryListItemTagListXML.addView(textView)
+                val xmlTagItem = tagView.findViewById(R.id.tag_item) as TextView
+                xmlTagItem.text = tags[position][i]
+                xmlInventoryListTags.addView(xmlTagItem)
             }
 
-            return itemView
-
+            return innerView
         }
     }
 }
