@@ -2,7 +2,6 @@ package de.mec_kon.tagventory
 
 import android.app.Activity
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.LinearLayout
@@ -11,21 +10,24 @@ import android.widget.TextView
 class FilterExpanderAdapter(private val context: Activity,private val listOfHeaderData: ArrayList<String>,private val hashMapOfChildData: HashMap<String,ArrayList<String>>,
                             private val taglistRequired: ArrayList<String>,private val taglistAvoided: ArrayList<String>): BaseExpandableListAdapter() {
 
+    lateinit var xmlOnRequired:LinearLayout
+    lateinit var xmlOnAvoided:LinearLayout
+
     override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
 
         val inflater = context.layoutInflater
         val view = inflater.inflate(R.layout.filter_list_header,  parent, false)
 
-        val xmlOnRequired = view.findViewById<View>(R.id.filter_header_on_required) as LinearLayout
-        val xmlOnAvoided = view.findViewById<View>(R.id.filter_header_on_avoided) as LinearLayout
+        xmlOnRequired = view.findViewById<View>(R.id.filter_header_on_required) as LinearLayout
+        xmlOnAvoided = view.findViewById<View>(R.id.filter_header_on_avoided) as LinearLayout
         val xmlNumOfRequired = view.findViewById<View>(R.id.filter_required_count) as TextView
         val xmlNumOfAvoided = view.findViewById<View>(R.id.filter_avoided_count) as TextView
 
         xmlNumOfRequired.text = taglistRequired.size.toString()
         xmlNumOfAvoided.text = taglistAvoided.size.toString()
 
-        if (taglistRequired.size == 0) xmlOnRequired.visibility = GONE
-        if (taglistAvoided.size == 0) xmlOnAvoided.visibility = GONE
+        if (taglistRequired.size == 0) xmlOnRequired.removeAllViews()
+        if (taglistAvoided.size == 0) xmlOnAvoided.removeAllViews()
 
         return view
     }
@@ -52,12 +54,15 @@ class FilterExpanderAdapter(private val context: Activity,private val listOfHead
 
 
     override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
+
+        xmlOnRequired.removeAllViews()
+        xmlOnAvoided.removeAllViews()
+
         val inflater = context.layoutInflater
         val view = inflater.inflate(R.layout.filter_list_item, parent, false)
 
         val childTitle: String
         val taglist: ArrayList<String>
-
 
         ////////// respective TextView //////////
 

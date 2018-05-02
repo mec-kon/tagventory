@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:id="@+id/filter_header">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:id="@+id/filter_header">
 
     <TextView
-              android:id="@+id/filter_header_text_view"
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:text="@string/str_filter_keyword"
-              android:textSize="18sp"
-              android:layout_marginStart="10dp"/>
-    <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:orientation="horizontal"
-                  android:id="@+id/filter_header_on_required"
-    >
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_marginStart="16dp"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:text="5"
-                  android:id="@+id/filter_required_count"
+        android:id="@+id/filter_header_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/str_filter_keyword"
+        android:textSize="18sp"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         />
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_marginStart="4dp"
-                  android:textSize="16sp"
-                  android:text="@string/str_filter_required_small"
-        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/filter_header_on_required">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/filter_required_count" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:textSize="16sp"
+            android:text="@string/str_filter_required_small" />
     </LinearLayout>
-    <LinearLayout android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:orientation="horizontal"
-                  android:id="@+id/filter_header_on_avoided"
-    >
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_marginStart="16dp"
-                  android:textSize="16sp"
-                  android:textStyle="bold"
-                  android:text="3"
-                  android:id="@+id/filter_avoided_count"
-        />
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="match_parent"
-                  android:layout_marginStart="4dp"
-                  android:textSize="16sp"
-                  android:text="@string/str_filter_avoided_small"
-        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/filter_header_on_avoided">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/filter_avoided_count" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:textSize="16sp"
+            android:text="@string/str_filter_avoided_small" />
     </LinearLayout>
 
 </LinearLayout>

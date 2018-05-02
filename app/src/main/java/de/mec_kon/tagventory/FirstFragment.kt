@@ -38,8 +38,8 @@ class FirstFragment : Fragment() {
         val children = arrayListOf("1", "2")
         val filterHashMap = hashMapOf(header[0] to children)
         val tagsReq = arrayListOf<String>("bla", "ble", "bli", "blo", "blu", "der", "Mund", "geht", "nicht", "mehr", "zu")
-        // val tagsAvd = arrayListOf<String>("foo", "bar")
-        val tagsAvd = arrayListOf<String>()
+        val tagsAvd = arrayListOf<String>("foo", "bar")
+        //val tagsAvd = arrayListOf<String>()
 
         val filterAdapter = FilterExpanderAdapter(activity, header, filterHashMap, tagsReq, tagsAvd)
         val xmlFilterElement: ExpandableListView?
