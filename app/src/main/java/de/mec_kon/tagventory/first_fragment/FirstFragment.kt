@@ -1,6 +1,7 @@
 package de.mec_kon.tagventory.first_fragment
 
 import android.app.Fragment
+import android.graphics.Color.rgb
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import android.widget.ExpandableListView.OnGroupExpandListener
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.adapter.FilterExpanderAdapter
 import de.mec_kon.tagventory.first_fragment.adapter.InventoryListAdapter
+import de.mec_kon.tagventory.first_fragment.datastructure.Filter
 import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
+import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 
 
 class FirstFragment : Fragment() {
@@ -24,10 +27,21 @@ class FirstFragment : Fragment() {
         ////////// create inventory list //////////
         val xmlInventoryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
-        val item = InventoryItem("test", arrayListOf("tag1", "tag2", "tag3", "tag4", "tag5", "tag1", "tag2", "tag3", "tag4", "tag5", "tag1", "tag2", "tag3", "tag4", "tag5"))
-        val item2 = InventoryItem("test2", arrayListOf("one", "two", "three"))
-        val item3 = InventoryItem("test3", arrayListOf("eins", "zwei", "drei", "vier", "fuenf", "sechs"))
-        val list = arrayListOf<InventoryItem>(item, item2, item3)
+        val tag1 = Tag("One", rgb(255, 0, 20))
+        val tag2 = Tag("Two", rgb(20, 0, 255))
+        val tag3 = Tag("Three", rgb(0, 50, 100))
+        val tag4 = Tag("Four", rgb(90, 90, 90))
+        val tag5 = Tag("Five", rgb(200, 50, 20))
+
+        val tagList1 = arrayListOf<Tag>(tag1, tag2, tag3, tag4, tag5)
+        val tagList2 = arrayListOf<Tag>(tag2, tag4)
+        val tagList3 = arrayListOf<Tag>(tag1, tag2, tag5, tag4)
+
+        val item1 = InventoryItem("test", 1, tagList1)
+        val item2 = InventoryItem("test2", 1, tagList2)
+        val item3 = InventoryItem("test3", 1, tagList3)
+
+        val list = arrayListOf<InventoryItem>(item1, item2, item3)
 
         val inventoryAdapter = InventoryListAdapter(activity, list)
         xmlInventoryList.adapter = inventoryAdapter.innerAdapter
@@ -37,35 +51,28 @@ class FirstFragment : Fragment() {
         val header = arrayListOf("")
         val children = arrayListOf("1", "2")
         val filterHashMap = hashMapOf(header[0] to children)
-        val tagsReq = arrayListOf<String>("bla", "ble", "bli", "blo", "blu", "der", "Mund", "geht", "nicht", "mehr", "zu")
-        val tagsAvd = arrayListOf<String>("foo", "bar")
-        //val tagsAvd = arrayListOf<String>()
 
-        val filterAdapter = FilterExpanderAdapter(activity, header, filterHashMap, tagsReq, tagsAvd)
+        val filter1 = Filter(tagList1, tagList2)
+
+        val filterAdapter = FilterExpanderAdapter(activity, header, filterHashMap, filter1)
         val xmlFilterElement: ExpandableListView?
         xmlFilterElement = view.findViewById(R.id.filter_element) as ExpandableListView
         xmlFilterElement.setAdapter(filterAdapter)
 
 
-        //-------------------------- DOES NOT WORK PROPERLY YET --------------------------------------------
-        val filterListHeader = inflater.inflate(R.layout.filter_list_header, container, false)
-        val filterReq = filterListHeader.findViewById<View>(R.id.filter_header_on_required) as LinearLayout
-        val filterAvd = filterListHeader.findViewById<View>(R.id.filter_header_on_avoided) as LinearLayout
+
 
         // Listview Group expanded listener
         xmlFilterElement.setOnGroupExpandListener(OnGroupExpandListener {
             Toast.makeText(activity, "Es funktioniert! Expandiert!", Toast.LENGTH_SHORT).show()
-            //filterReq.visibility = GONE
-            //filterAvd.visibility = GONE
         })
 
         // Listview Group collapsed listener
         xmlFilterElement.setOnGroupCollapseListener(OnGroupCollapseListener {
             Toast.makeText(activity, "Es funktioniert! Kollabiert!", Toast.LENGTH_SHORT).show()
-            //filterReq.visibility = VISIBLE
-            //filterAvd.visibility = VISIBLE
         })
-        //-------------------------- DOES NOT WORK PROPERLY YET --------------------------------------------
+
+
 
 
         return view

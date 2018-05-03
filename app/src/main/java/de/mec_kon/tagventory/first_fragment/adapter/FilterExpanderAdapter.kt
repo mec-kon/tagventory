@@ -1,15 +1,18 @@
 package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
+import android.graphics.PorterDuff
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import de.mec_kon.tagventory.R
+import de.mec_kon.tagventory.first_fragment.datastructure.Filter
+import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 
 class FilterExpanderAdapter(private val context: Activity,private val listOfHeaderData: ArrayList<String>,private val hashMapOfChildData: HashMap<String,ArrayList<String>>,
-                            private val taglistRequired: ArrayList<String>,private val taglistAvoided: ArrayList<String>): BaseExpandableListAdapter() {
+                            private val filters:Filter): BaseExpandableListAdapter() {
 
     lateinit var xmlOnRequired:LinearLayout
     lateinit var xmlOnAvoided:LinearLayout
@@ -24,11 +27,11 @@ class FilterExpanderAdapter(private val context: Activity,private val listOfHead
         val xmlNumOfRequired = view.findViewById<View>(R.id.filter_required_count) as TextView
         val xmlNumOfAvoided = view.findViewById<View>(R.id.filter_avoided_count) as TextView
 
-        xmlNumOfRequired.text = taglistRequired.size.toString()
-        xmlNumOfAvoided.text = taglistAvoided.size.toString()
+        xmlNumOfRequired.text = filters.counterReq.toString()
+        xmlNumOfAvoided.text = filters.counterAvd.toString()
 
-        if (taglistRequired.size == 0) xmlOnRequired.removeAllViews()
-        if (taglistAvoided.size == 0) xmlOnAvoided.removeAllViews()
+        if (filters.counterReq == 0) xmlOnRequired.removeAllViews()
+        if (filters.counterAvd == 0) xmlOnAvoided.removeAllViews()
 
         return view
     }
@@ -63,28 +66,28 @@ class FilterExpanderAdapter(private val context: Activity,private val listOfHead
         val view = inflater.inflate(R.layout.filter_list_item, parent, false)
 
         val childTitle: String
-        val taglist: ArrayList<String>
+        val tagList: ArrayList<Tag>
+
 
         ////////// respective TextView //////////
 
         if (childPosition == 0) {
             childTitle = context.getString(R.string.str_filter_required_full)
-            taglist = taglistRequired
+            tagList = filters.tagsReq
         } else {
             childTitle = context.getString(R.string.str_filter_avoided_full)
-            taglist = taglistAvoided
+            tagList = filters.tagsAvd
         }
 
         val xmlFilterItemText = view.findViewById<View>(R.id.filter_item_text) as TextView
         xmlFilterItemText.text = childTitle
 
 
-
         ////////// respective item list //////////
 
         val xmlFilterItemTagList = view.findViewById<View>(R.id.filter_item_taglist) as LinearLayout
 
-        for (i in 0 until taglist.size) {
+        for (i in 0 until tagList.size) {
 
             // add placeholder textview
             val placeholderTextView = TextView(context)
@@ -94,7 +97,11 @@ class FilterExpanderAdapter(private val context: Activity,private val listOfHead
             // add textview
             val tagView = inflater.inflate(R.layout.inventory_tag_item, null)
             val xmlTagItem = tagView.findViewById(R.id.tag_item) as TextView
-            xmlTagItem.text = taglist[i]
+            xmlTagItem.text = tagList[i].name
+
+            val roundedTagDesignBG = xmlTagItem.background
+            roundedTagDesignBG.setColorFilter(tagList[i].color, PorterDuff.Mode.SRC_ATOP)
+
             xmlFilterItemTagList.addView(xmlTagItem)
         }
 
