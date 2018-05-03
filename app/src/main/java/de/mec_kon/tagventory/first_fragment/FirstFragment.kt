@@ -1,18 +1,18 @@
-package de.mec_kon.tagventory
+package de.mec_kon.tagventory.first_fragment
 
 import android.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.Toast
 import android.widget.ExpandableListView.OnGroupCollapseListener
 import android.widget.ExpandableListView.OnGroupExpandListener
-
-
+import de.mec_kon.tagventory.R
+import de.mec_kon.tagventory.first_fragment.adapter.FilterExpanderAdapter
+import de.mec_kon.tagventory.first_fragment.adapter.InventoryListAdapter
+import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 
 
 class FirstFragment : Fragment() {

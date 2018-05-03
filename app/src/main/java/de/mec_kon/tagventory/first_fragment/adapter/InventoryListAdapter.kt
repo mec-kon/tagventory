@@ -1,4 +1,4 @@
-package de.mec_kon.tagventory
+package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import de.mec_kon.tagventory.R
+import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 
 
 class InventoryListAdapter(context: Activity, items: ArrayList<InventoryItem>) {
