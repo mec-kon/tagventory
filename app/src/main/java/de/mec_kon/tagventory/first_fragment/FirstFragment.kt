@@ -35,13 +35,19 @@ class FirstFragment : Fragment() {
 
         val tagList1 = arrayListOf<Tag>(tag1, tag2, tag3, tag4, tag5)
         val tagList2 = arrayListOf<Tag>(tag2, tag4)
-        val tagList3 = arrayListOf<Tag>(tag1, tag2, tag5, tag4)
+        val tagList3 = arrayListOf<Tag>(tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4)
 
         val item1 = InventoryItem("test", 1, tagList1)
         val item2 = InventoryItem("test2", 1, tagList2)
         val item3 = InventoryItem("test3", 1, tagList3)
+        val item4 = InventoryItem("test4", 1, tagList1)
+        val item5 = InventoryItem("test5", 1, tagList2)
+        val item6 = InventoryItem("test6", 1, tagList3)
+        val item7 = InventoryItem("test7", 1, tagList1)
+        val item8 = InventoryItem("test8", 1, tagList2)
+        val item9 = InventoryItem("test9", 1, tagList3)
 
-        val list = arrayListOf<InventoryItem>(item1, item2, item3)
+        val list = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
 
         val inventoryAdapter = InventoryListAdapter(activity, list)
         xmlInventoryList.adapter = inventoryAdapter.innerAdapter
