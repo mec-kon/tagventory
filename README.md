@@ -48,21 +48,21 @@ search bar.
 3. **Both search bar and filter**  
 Basically just setting up the filters and then typing into the search bar, furthermore reducing the amount of results
 shown.  
-![Filter Search Example 1.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example1.png
+![Filter Search Example 1.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example_1.png
 "Still having ELECTRICITY and TOOL as required tags while avoiding MULTIMEDIA, then typing in letters")
-![Filter Search Example 2.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example2.png
+![Filter Search Example 2.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example_2.png
 "Continuing to type in letters")
-![Filter Search Example 3.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example3.png
+![Filter Search Example 3.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example_3.png
 "Expanding the filter to change its settings")
-![Filter Search Example 4.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example4.png
+![Filter Search Example 4.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example_4.png
 "Clearing the list of avoided tags and deleting a letter")
-![Filter Search Example 5.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example5.png
+![Filter Search Example 5.png](https://github.com/mec-kon/tagventory/tree/master/demos/Filter_Search_Example_5.png
 "Collapsing the filter again")
 
 ##Less hardcoding, more possibilities
 Of course, keeping track of your inventory isn't the only usage for our app. From the very beginning of the project, we
 wanted to make sure that it can be used in any way imaginable.  
-![Alternate Example 1.png](https://github.com/mec-kon/tagventory/tree/master/demos/Alternate_Example1.png
+![Alternate Example 1.png](https://github.com/mec-kon/tagventory/tree/master/demos/Alternate_Example_1.png
 "Getting hungry?")
 
 Think of this as an example: You always struggle to choose a dish to prepare for lunch. In order to get rid of that
@@ -72,9 +72,9 @@ use up before they go bad. You will then receive a list of possible dishes that 
 from going to waste.  
 Or, you can set those ingredients to avoid, which you simply don't have left in stock. If you don't have any milk left,
 there's no point in thinking about pancakes, simple as that.  
-![Alternate Example 2.png](https://github.com/mec-kon/tagventory/tree/master/demos/Alternate_Example2.png
+![Alternate Example 2.png](https://github.com/mec-kon/tagventory/tree/master/demos/Alternate_Example_2.png
 "Only showing dishes that do not use milk")
-![Alternate Example 3.png](https://github.com/mec-kon/tagventory/tree/master/demos/Alternate_Example3.png
+![Alternate Example 3.png](https://github.com/mec-kon/tagventory/tree/master/demos/Alternate_Example_3.png
 "No more milk left?")
 
 You see, there's more to this app than just organizing inventory. You can make a To-Do-list and use tags as indicators
