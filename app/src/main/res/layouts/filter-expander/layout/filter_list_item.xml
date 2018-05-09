@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:paddingTop="2dp"
-              android:paddingBottom="2dp">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="1dp"
+    android:paddingBottom="2dp">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="16sp"
-            android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
-            android:id="@+id/filter_item_text"/>
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="15sp"
+        android:layout_marginStart="10dp"
+        android:gravity="center_vertical"
+        android:id="@+id/filter_item_text" />
 
     <HorizontalScrollView
-            android:scrollbars="none"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp">
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp">
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:id="@+id/filter_item_taglist">
-        </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:id="@+id/filter_item_taglist" />
+
     </HorizontalScrollView>
 </LinearLayout>

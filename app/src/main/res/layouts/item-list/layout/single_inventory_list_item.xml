@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:paddingTop="2dp"
-             android:paddingBottom="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="2dp"
+    android:paddingBottom="4dp">
 
     <TextView
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="2dp"
-            android:textColor="@color/inventoryListItemName"
-            android:textStyle="bold"
-            android:textSize="18sp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/inventoryListItemName"
+        android:textStyle="bold"
+        android:textSize="17sp"
 
-            android:id="@+id/inventory_list_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:id="@+id/inventory_list_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <HorizontalScrollView
-            android:scrollbars="none"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:paddingBottom="8dp">
+        android:scrollbars="none"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:paddingBottom="4dp">
 
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:id="@+id/inventory_list_tags">
+            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:id="@+id/inventory_list_tags" />
 
-        </LinearLayout>
     </HorizontalScrollView>
 
 </TableLayout>

@@ -70,12 +70,12 @@ class FirstFragment : Fragment() {
 
         // Listview Group expanded listener
         xmlFilterElement.setOnGroupExpandListener(OnGroupExpandListener {
-            Toast.makeText(activity, "Es funktioniert! Expandiert!", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity, "Es funktioniert! Expandiert!", Toast.LENGTH_SHORT).show()
         })
 
         // Listview Group collapsed listener
         xmlFilterElement.setOnGroupCollapseListener(OnGroupCollapseListener {
-            Toast.makeText(activity, "Es funktioniert! Kollabiert!", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity, "Es funktioniert! Kollabiert!", Toast.LENGTH_SHORT).show()
         })
 
 

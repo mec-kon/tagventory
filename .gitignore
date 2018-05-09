@@ -14,6 +14,7 @@ gen/
 out/
 
 # Gradle files
+app/.gradle/
 .gradle/
 build/
 
@@ -34,6 +35,7 @@ captures/
 
 # Intellij
 *.iml
+app/*.iml
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
