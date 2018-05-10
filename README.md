@@ -11,8 +11,7 @@ cleverer. He made use of... *technology*. More precise: The Android Software Dev
 The app's main feature is the ability to instant search through a list of user-defined items by typing the item name
 and/or limiting the amount of search results via the tag-filter. Therefore, the main view consists of three elements:
 The search bar, the filter and the item list.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Basic_Example_1.png" alt="Main view with collapsed filter" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Basic_Example_2.png" alt="Main view with expanded filter" width="180" height="308">
+<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Basic_Example_1.png" alt="Main view with collapsed filter" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Basic_Example_2.png" alt="Main view with expanded filter" width="180" height="308">
 
 Items can be added by tapping the "Add item"-button. This will make a dialogue appear, which allows the user to input
 the item's name, add several user-generated tags (with their own names and colors) and an optional item counter.
@@ -22,9 +21,7 @@ multiple ways to do this.
 1. **The search bar**  
 The most obvious possibility. Typing in letters will continuously remove items from the item list until the desired
 result is shown.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_1.png" alt="Typing a letter into the search bar" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_2.png" alt="Typing more letters into the search bar" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_3.png" alt="Typing even more letters into the search bar" width="180" height="308">
+<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_1.png" alt="Typing a letter into the search bar" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_2.png" alt="Typing more letters into the search bar" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_3.png" alt="Typing even more letters into the search bar" width="180" height="308">
 
 2. **The filter**  
 Just like the search bar, elements that do not match the filter's configuration will be progressively removed from the
@@ -39,15 +36,11 @@ search bar.
 3. **Both search bar and filter**  
 Basically just setting up the filters and then typing into the search bar, furthermore reducing the amount of results
 shown.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_1.png" alt="Still having ELECTRICITY and TOOL as required tags while avoiding MULTIMEDIA, then typing in letters" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_2.png" alt="Continuing to type in letters" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_3.png" alt="Expanding the filter to change its settings" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_4.png" alt="Clearing the list of avoided tags and deleting a letter" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_5.png" alt="Collapsing the filter again" width="180" height="308">
+<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_1.png" alt="Still having ELECTRICITY and TOOL as required tags while avoiding MULTIMEDIA, then typing in letters" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_2.png" alt="Continuing to type in letters" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_3.png" alt="Expanding the filter to change its settings" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_4.png" alt="Clearing the list of avoided tags and deleting a letter" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_5.png" alt="Collapsing the filter again" width="180" height="308">
 
 ## Less hardcoding, more possibilities
 Of course, keeping track of your inventory isn't the only usage for our app. From the very beginning of the project, we
-wanted to make sure that it can be used in any way imaginable. 
+wanted to make sure that it can be used in any way imaginable.  
 <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Alternate_Example_1.png" alt="Getting hungry?" width="180" height="308">
 
 Think of this as an example: You always struggle to choose a dish to prepare for lunch. In order to get rid of that
@@ -57,8 +50,7 @@ use up before they go bad. You will then receive a list of possible dishes that 
 from going to waste.  
 Or, you can set those ingredients to avoid, which you simply don't have left in stock. If you don't have any milk left,
 there's no point in thinking about pancakes, simple as that.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Alternate_Example_2.png" alt="Only showing dishes that do not use milk" width="180" height="308">
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Alternate_Example_3.png" alt="No more milk left?" width="180" height="308">
+<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Alternate_Example_2.png" alt="Only showing dishes that do not use milk" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Alternate_Example_3.png" alt="No more milk left?" width="180" height="308">
 
 You see, there's more to this app than just organizing inventory. You can make a To-Do-list and use tags as indicators
 of respective importance, etc.
