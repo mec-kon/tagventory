@@ -20,8 +20,7 @@ multiple ways to do this.
 
 1. **The search bar**  
 The most obvious possibility. Typing in letters will continuously remove items from the item list until the desired
-result is shown.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_1.png" alt="Typing a letter into the search bar" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_2.png" alt="Typing more letters into the search bar" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_3.png" alt="Typing even more letters into the search bar" width="180" height="308">
+result is shown.  <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_1.png" alt="Typing a letter into the search bar" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_2.png" alt="Typing more letters into the search bar" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Search_Bar_Example_3.png" alt="Typing even more letters into the search bar" width="180" height="308">
 
 2. **The filter**  
 Just like the search bar, elements that do not match the filter's configuration will be progressively removed from the
@@ -30,13 +29,11 @@ There are two ways to use the filter: Setting tags as "required" will make the i
 include the corresponding tags.
 Setting tags as "avoided" on the other hand will remove items that include the corresponding tags. Therefore, using
 both filter options at once will eliminate most results from the item list beforehand without the need to use the
-search bar.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Example.png" alt="Setting two tags as required while avoiding another tag" width="180" height="308">
+search bar.  <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Example.png" alt="Setting two tags as required while avoiding another tag" width="180" height="308">
 
 3. **Both search bar and filter**  
 Basically just setting up the filters and then typing into the search bar, furthermore reducing the amount of results
-shown.  
-<img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_1.png" alt="Still having ELECTRICITY and TOOL as required tags while avoiding MULTIMEDIA, then typing in letters" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_2.png" alt="Continuing to type in letters" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_3.png" alt="Expanding the filter to change its settings" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_4.png" alt="Clearing the list of avoided tags and deleting a letter" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_5.png" alt="Collapsing the filter again" width="180" height="308">
+shown.  <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_1.png" alt="Still having ELECTRICITY and TOOL as required tags while avoiding MULTIMEDIA, then typing in letters" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_2.png" alt="Continuing to type in letters" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_3.png" alt="Expanding the filter to change its settings" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_4.png" alt="Clearing the list of avoided tags and deleting a letter" width="180" height="308"> <img src="https://raw.githubusercontent.com/mec-kon/tagventory/master/demos/Filter_Search_Example_5.png" alt="Collapsing the filter again" width="180" height="308">
 
 ## Less hardcoding, more possibilities
 Of course, keeping track of your inventory isn't the only usage for our app. From the very beginning of the project, we
