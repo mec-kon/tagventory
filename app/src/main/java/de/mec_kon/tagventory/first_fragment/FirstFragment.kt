@@ -3,11 +3,12 @@ package de.mec_kon.tagventory.first_fragment
 import android.app.Fragment
 import android.graphics.Color.rgb
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import android.widget.Toast
+import android.widget.ExpandableListView
 import android.widget.ExpandableListView.OnGroupCollapseListener
 import android.widget.ExpandableListView.OnGroupExpandListener
 import de.mec_kon.tagventory.R
@@ -19,13 +20,19 @@ import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 
 
 class FirstFragment : Fragment() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
 
         ////////// create inventory list //////////
-        val xmlInventoryList = view.findViewById<View>(R.id.inventory_list) as ListView
+        //val xmlInventoryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
         val tag1 = Tag("One", rgb(255, 0, 20))
         val tag2 = Tag("Two", rgb(20, 0, 255))
@@ -36,6 +43,7 @@ class FirstFragment : Fragment() {
         val tagList1 = arrayListOf<Tag>(tag1, tag2, tag3, tag4, tag5)
         val tagList2 = arrayListOf<Tag>(tag2, tag4)
         val tagList3 = arrayListOf<Tag>(tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4)
+
 
         val item1 = InventoryItem("test", 1, tagList1)
         val item2 = InventoryItem("test2", 1, tagList2)
@@ -49,8 +57,27 @@ class FirstFragment : Fragment() {
 
         val list = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
 
-        val inventoryAdapter = InventoryListAdapter(activity, list)
-        xmlInventoryList.adapter = inventoryAdapter.innerAdapter
+        //val inventoryAdapter = InventoryListAdapter(activity, list)
+        //xmlInventoryList.adapter = inventoryAdapter.innerAdapter
+
+
+
+        viewManager = LinearLayoutManager(activity)
+        viewAdapter = InventoryListAdapter(list, activity)
+
+        recyclerView = view.findViewById<RecyclerView>(R.id.inventory_list).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
+
+        }
+
 
 
         ////////// create filter element //////////
