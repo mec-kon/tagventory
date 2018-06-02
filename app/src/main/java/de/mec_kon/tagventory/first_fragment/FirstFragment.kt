@@ -9,8 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.OnGroupCollapseListener
-import android.widget.ExpandableListView.OnGroupExpandListener
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.adapter.FilterExpanderAdapter
 import de.mec_kon.tagventory.first_fragment.adapter.InventoryListAdapter
@@ -24,7 +22,7 @@ class FirstFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-
+    private var allItemsList = arrayListOf<InventoryItem>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -55,7 +53,7 @@ class FirstFragment : Fragment() {
         val item8 = InventoryItem("test8", 1, tagList2)
         val item9 = InventoryItem("test9", 1, tagList3)
 
-        val list = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
+        allItemsList = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
 
         //val inventoryAdapter = InventoryListAdapter(activity, list)
         //xmlInventoryList.adapter = inventoryAdapter.innerAdapter
@@ -63,7 +61,7 @@ class FirstFragment : Fragment() {
 
 
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = InventoryListAdapter(list, activity)
+        viewAdapter = InventoryListAdapter(allItemsList, activity)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.inventory_list).apply {
             // use this setting to improve performance if you know that changes
@@ -94,23 +92,17 @@ class FirstFragment : Fragment() {
 
 
 
-
-        // Listview Group expanded listener
-        xmlFilterElement.setOnGroupExpandListener(OnGroupExpandListener {
-            //Toast.makeText(activity, "Es funktioniert! Expandiert!", Toast.LENGTH_SHORT).show()
-        })
-
-        // Listview Group collapsed listener
-        xmlFilterElement.setOnGroupCollapseListener(OnGroupCollapseListener {
-            //Toast.makeText(activity, "Es funktioniert! Kollabiert!", Toast.LENGTH_SHORT).show()
-        })
-
-
-
-
         return view
     }
 
+
+    fun addItem(){
+        val tagList = arrayListOf<Tag>(Tag("Extra1", rgb(200, 50, 150)),
+                Tag("Additionally2", rgb(20, 180, 150)))
+        val item = InventoryItem("NewlyAdded", 1, tagList)
+        allItemsList.add(item)
+        viewAdapter.notifyDataSetChanged()
+    }
 
 
 }

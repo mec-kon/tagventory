@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.FirstFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,10 +21,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -35,6 +32,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val manager = fragmentManager
         val first = FirstFragment()
         manager.beginTransaction().replace(R.id.fragment, first).commit()
+
+
+        fab.setOnClickListener { _ ->
+            first.addItem()
+            Toast.makeText(this, "Hold an item to remove it", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onBackPressed() {

@@ -30,7 +30,15 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.single_inventory_list_item, parent, false)
 
-        return ViewHolder(itemView)
+        val viewHold = ViewHolder(itemView)
+
+        itemView.setOnLongClickListener({
+            items.removeAt(viewHold.adapterPosition)
+            notifyDataSetChanged()
+            true
+        })
+
+        return viewHold
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -48,6 +56,8 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             ////////// respective tag list //////////
 
             val inflater = context.layoutInflater
+
+            itemView.inventory_list_tags.removeAllViews()
 
             for (i in 0 until item.tagList.size) {
 
