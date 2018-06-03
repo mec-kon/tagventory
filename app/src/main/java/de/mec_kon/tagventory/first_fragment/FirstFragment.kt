@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
+import android.widget.SearchView
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.adapter.FilterExpanderAdapter
 import de.mec_kon.tagventory.first_fragment.adapter.InventoryListAdapter
@@ -17,17 +18,20 @@ import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 
 
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), InventoryListAdapter.Modifier {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private var allItemsList = arrayListOf<InventoryItem>()
 
+    private lateinit var searchBar: SearchView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
+        searchBar = view.findViewById<SearchView>(R.id.search_field)
 
         ////////// create inventory list //////////
         //val xmlInventoryList = view.findViewById<View>(R.id.inventory_list) as ListView
@@ -62,6 +66,7 @@ class FirstFragment : Fragment() {
 
         viewManager = LinearLayoutManager(activity)
         viewAdapter = InventoryListAdapter(allItemsList, activity)
+        (viewAdapter as InventoryListAdapter).setModifier(this)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.inventory_list).apply {
             // use this setting to improve performance if you know that changes
@@ -95,6 +100,12 @@ class FirstFragment : Fragment() {
         return view
     }
 
+    override fun onItemSelected(position: Int) {
+        if ((searchBar.query).toString() != "") {
+            allItemsList[position].name = (searchBar.query).toString()
+            viewAdapter.notifyItemChanged(position)
+        }
+    }
 
     fun addItem(){
         val tagList = arrayListOf<Tag>(Tag("Extra1", rgb(200, 50, 150)),
@@ -102,6 +113,7 @@ class FirstFragment : Fragment() {
         val item = InventoryItem("NewlyAdded", 1, tagList)
         allItemsList.add(item)
         viewAdapter.notifyDataSetChanged()
+        viewManager.scrollToPosition(allItemsList.size-1)
     }
 
 

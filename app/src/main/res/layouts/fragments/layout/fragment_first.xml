@@ -5,6 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SearchView
+        android:id="@+id/search_field"
         android:iconifiedByDefault="false"
         android:focusable="false"
         android:layout_width="match_parent"

@@ -17,6 +17,16 @@ import kotlinx.android.synthetic.main.single_inventory_list_item.view.*
 class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private val context: Activity) :
         RecyclerView.Adapter<InventoryListAdapter.ViewHolder>() {
 
+    interface Modifier {
+        fun onItemSelected(position: Int)
+    }
+
+    private var modify: Modifier? = null
+
+    fun setModifier(activeModifier: Modifier) {
+        this.modify = activeModifier
+    }
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
@@ -36,6 +46,10 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             items.removeAt(viewHold.adapterPosition)
             notifyDataSetChanged()
             true
+        })
+
+        itemView.setOnClickListener({
+            modify!!.onItemSelected(viewHold.adapterPosition)
         })
 
         return viewHold
