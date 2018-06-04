@@ -18,24 +18,24 @@ import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 
 
-class FirstFragment : Fragment(), InventoryListAdapter.Modifier {
+class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private var allItemsList = arrayListOf<InventoryItem>()
+
+    private var itemList = arrayListOf<InventoryItem>()
 
     private lateinit var searchBar: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
         searchBar = view.findViewById<SearchView>(R.id.search_field)
 
-        ////////// create inventory list //////////
-        //val xmlInventoryList = view.findViewById<View>(R.id.inventory_list) as ListView
 
+
+        ////////// create inventory list //////////
         val tag1 = Tag("One", rgb(255, 0, 20))
         val tag2 = Tag("Two", rgb(20, 0, 255))
         val tag3 = Tag("Three", rgb(0, 50, 100))
@@ -45,7 +45,6 @@ class FirstFragment : Fragment(), InventoryListAdapter.Modifier {
         val tagList1 = arrayListOf<Tag>(tag1, tag2, tag3, tag4, tag5)
         val tagList2 = arrayListOf<Tag>(tag2, tag4)
         val tagList3 = arrayListOf<Tag>(tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4)
-
 
         val item1 = InventoryItem("test", 1, tagList1)
         val item2 = InventoryItem("test2", 1, tagList2)
@@ -57,16 +56,14 @@ class FirstFragment : Fragment(), InventoryListAdapter.Modifier {
         val item8 = InventoryItem("test8", 1, tagList2)
         val item9 = InventoryItem("test9", 1, tagList3)
 
-        allItemsList = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
-
-        //val inventoryAdapter = InventoryListAdapter(activity, list)
-        //xmlInventoryList.adapter = inventoryAdapter.innerAdapter
-
+        itemList = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
 
 
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = InventoryListAdapter(allItemsList, activity)
-        (viewAdapter as InventoryListAdapter).setModifier(this)
+        viewAdapter = InventoryListAdapter(itemList, activity)
+
+        // set this instance of FirstFragment as the implementer of the viewAdapter's InventoryListInterface
+        (viewAdapter as InventoryListAdapter).setInventoryListInterfaceImplementer(this)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.inventory_list).apply {
             // use this setting to improve performance if you know that changes
@@ -100,21 +97,27 @@ class FirstFragment : Fragment(), InventoryListAdapter.Modifier {
         return view
     }
 
-    override fun onItemSelected(position: Int) {
-        if ((searchBar.query).toString() != "") {
-            allItemsList[position].name = (searchBar.query).toString()
-            viewAdapter.notifyItemChanged(position)
-        }
-    }
-
     fun addItem(){
         val tagList = arrayListOf<Tag>(Tag("Extra1", rgb(200, 50, 150)),
                 Tag("Additionally2", rgb(20, 180, 150)))
         val item = InventoryItem("NewlyAdded", 1, tagList)
-        allItemsList.add(item)
+        itemList.add(item)
         viewAdapter.notifyDataSetChanged()
-        viewManager.scrollToPosition(allItemsList.size-1)
+        viewManager.scrollToPosition(itemList.size-1)
     }
 
+    // InventoryListInterface implementations
+
+    override fun onClickInvoked(position: Int) {
+        if ((searchBar.query).toString() != "") {
+            itemList[position].name = (searchBar.query).toString()
+            viewAdapter.notifyItemChanged(position)
+        }
+    }
+
+    override fun onLongClickInvoked(position: Int) {
+        itemList.removeAt(position)
+        viewAdapter.notifyDataSetChanged()
+    }
 
 }

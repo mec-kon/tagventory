@@ -1,97 +1,103 @@
 package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
-import android.content.Context
 import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
-import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.android.synthetic.main.single_inventory_list_item.view.*
 
 class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private val context: Activity) :
         RecyclerView.Adapter<InventoryListAdapter.ViewHolder>() {
 
-    interface Modifier {
-        fun onItemSelected(position: Int)
+    // declares an interface that delegates handling of onClickListener-events
+    interface InventoryListInterface {
+        fun onClickInvoked(position: Int)
+        fun onLongClickInvoked(position: Int)
     }
 
-    private var modify: Modifier? = null
-
-    fun setModifier(activeModifier: Modifier) {
-        this.modify = activeModifier
+    // determines the class instance that implements the InventoryListInterface
+    private lateinit var inventoryListInterfaceImplementer: InventoryListInterface
+    fun setInventoryListInterfaceImplementer(interfaceImplementer: InventoryListInterface) {
+        this.inventoryListInterfaceImplementer = interfaceImplementer
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder.
-    // Each data item is just a string in this case that is shown in a TextView.
 
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): InventoryListAdapter.ViewHolder {
-        // create a new view
+    // recyclerView process
+
+    // create new views (invoked by the layout manager) and set their onClickListeners
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryListAdapter.ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.single_inventory_list_item, parent, false)
 
         val viewHold = ViewHolder(itemView)
 
         itemView.setOnLongClickListener({
-            items.removeAt(viewHold.adapterPosition)
-            notifyDataSetChanged()
+            inventoryListInterfaceImplementer.onLongClickInvoked(viewHold.adapterPosition)
+
+            // means that the event has been handled and will not invoke any other onClickListeners
             true
         })
 
         itemView.setOnClickListener({
-            modify!!.onItemSelected(viewHold.adapterPosition)
+            inventoryListInterfaceImplementer.onClickInvoked(viewHold.adapterPosition)
         })
 
         return viewHold
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    // replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: InventoryListAdapter.ViewHolder, position: Int) {
         holder.bindItems(items[position])
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // return the size of the data set (invoked by the layout manager)
     override fun getItemCount() = items.size
 
+
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        // how to replace the contents of a view
         fun bindItems(item: InventoryItem) {
-            itemView.inventory_list_name.text = item.name
-
-            ////////// respective tag list //////////
-
             val inflater = context.layoutInflater
 
+            // set item name
+            itemView.inventory_list_name.text = item.name
+
+            // prevent the tag lists to be corrupted by the re-adding of tags in case the ViewHolder is created again
             itemView.inventory_list_tags.removeAllViews()
 
+            // set item tag list
             for (i in 0 until item.tagList.size) {
 
-                // add placeholder textview
+                // add placeholder textView
+
                 val placeholderTextView = TextView(context)
                 placeholderTextView.setPadding(10, 0, 10, 0)
 
                 itemView.inventory_list_tags.addView(placeholderTextView)
 
-                // add textview
+                // add tag name
+
                 val tagView = inflater.inflate(R.layout.inventory_tag_item, null)
                 val xmlTagItem = tagView.findViewById(R.id.tag_item) as TextView
                 xmlTagItem.text = items[position].tagList[i].name
 
+                // set tag color
+
                 val roundedTagDesignBG = xmlTagItem.background
+                // SRC_ATOP makes the colorFilter overlay the xmlTagItem's background (rounded_tag_design.xml)
                 roundedTagDesignBG.setColorFilter(items[position].tagList[i].color, PorterDuff.Mode.SRC_ATOP)
 
                 itemView.inventory_list_tags.addView(xmlTagItem)
-
             }
+
         }
     }
 }
