@@ -34,21 +34,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <HorizontalScrollView
-                android:scrollbars="none"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:paddingBottom="4dp"
+            <!-- A RecyclerView with some commonly used attributes -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/inventory_list_tags"
+                android:scrollbars="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
+                />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_height="match_parent"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/inventory_list_tags" />
-
-            </HorizontalScrollView>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
