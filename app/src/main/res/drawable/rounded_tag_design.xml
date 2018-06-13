@@ -3,7 +3,7 @@
      <item >
         <shape android:shape="rectangle"  >
             <corners android:radius="4sp"/>
-            <solid android:color="#2A2E31"/>
+            <solid android:color="@color/inventoryListDivider"/>
         </shape>
     </item>
 </selector>

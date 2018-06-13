@@ -120,4 +120,10 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         viewAdapter.notifyDataSetChanged()
     }
 
+    override fun onItemAddTag(position: Int, tagName: String) {
+        val newTag = Tag(tagName, rgb(200, 80, 200))
+        itemList[position].tagList.add(newTag)
+        viewAdapter.notifyItemChanged(position)
+    }
+
 }

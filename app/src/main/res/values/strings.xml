@@ -12,4 +12,6 @@
     <string name="str_filter_required_full">Required:</string>
     <string name="str_filter_avoided_full">Avoided:</string>
 
+    <string name="item_add_tag_hint">Avoided:</string>
+
 </resources>

@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
@@ -21,6 +20,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
     interface InventoryListInterface {
         fun onClickInvoked(position: Int)
         fun onLongClickInvoked(position: Int)
+        fun onItemAddTag(position: Int, tagName: String)
     }
 
     // determines the class instance that implements the InventoryListInterface
@@ -56,7 +56,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
 
     // replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: InventoryListAdapter.ViewHolder, position: Int) {
-        holder.bindItems(items[position])
+        holder.bindItems(items[position], position)
     }
 
     // return the size of the data set (invoked by the layout manager)
@@ -70,10 +70,29 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
         private lateinit var viewManager: RecyclerView.LayoutManager
 
         // how to replace the contents of a view
-        fun bindItems(item: InventoryItem) {
+        fun bindItems(item: InventoryItem, pos:Int) {
 
             // set item name
             itemView.inventory_list_name.text = item.name
+
+            // clear the item_add_tag_input
+            itemView.item_add_tag_input.text.clear()
+
+            // set OnEditorActionListener for the item_add_tag_input
+
+            itemView.item_add_tag_input.setOnEditorActionListener { _, _, _ ->
+
+                // get input from EditText
+                val newTagName = itemView.item_add_tag_input.text.toString()
+
+                if (newTagName != "") {
+                    inventoryListInterfaceImplementer.onItemAddTag(pos, newTagName)
+                }
+
+                // means that the event has been handled
+                true
+            }
+
 
             viewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             viewAdapter = TagListAdapter(item.tagList, context)
