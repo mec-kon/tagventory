@@ -19,11 +19,12 @@
         android:paddingTop="2dp"
         android:paddingBottom="4dp" />
 
+    <View style="@style/DividerHorizontal"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="6dp"
         android:background="@color/inventoryListDivider">
 
         <!-- A RecyclerView with some commonly used attributes -->
