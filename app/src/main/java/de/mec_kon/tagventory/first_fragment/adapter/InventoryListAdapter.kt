@@ -51,6 +51,21 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             inventoryListInterfaceImplementer.onClickInvoked(viewHold.adapterPosition)
         })
 
+        // set OnEditorActionListener for the item_add_tag_input
+
+        itemView.item_add_tag_input.setOnEditorActionListener { _, _, _ ->
+
+            // get input from EditText
+            val newTagName = itemView.item_add_tag_input.text.toString()
+
+            if (newTagName != "") {
+                inventoryListInterfaceImplementer.onItemAddTag(viewHold.adapterPosition, newTagName)
+            }
+
+            // means that the event has been handled
+            true
+        }
+
         return viewHold
     }
 
@@ -77,21 +92,6 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
 
             // clear the item_add_tag_input
             itemView.item_add_tag_input.text.clear()
-
-            // set OnEditorActionListener for the item_add_tag_input
-
-            itemView.item_add_tag_input.setOnEditorActionListener { _, _, _ ->
-
-                // get input from EditText
-                val newTagName = itemView.item_add_tag_input.text.toString()
-
-                if (newTagName != "") {
-                    inventoryListInterfaceImplementer.onItemAddTag(pos, newTagName)
-                }
-
-                // means that the event has been handled
-                true
-            }
 
 
             viewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
