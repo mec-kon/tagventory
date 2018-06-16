@@ -30,6 +30,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
         this.inventoryListInterfaceImplementer = interfaceImplementer
     }
 
+    val viewPool = RecyclerView.RecycledViewPool()
 
     // recyclerView process
 
@@ -78,6 +79,28 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
     override fun getItemCount() = items.size
 
 
+    inner class TagListAdapter(private val tagList: ArrayList<Tag>, private val context: Activity) :
+            RecyclerView.Adapter<InventoryListAdapter.ViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+            val itemView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.inventory_tag_item, parent, false)
+
+            return ViewHolder(itemView)
+        }
+
+
+        override fun onBindViewHolder(holder: InventoryListAdapter.ViewHolder, position: Int) {
+           holder.bindTags(tagList[position])
+        }
+
+        override fun getItemCount(): Int {
+           return  tagList.size
+        }
+
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private lateinit var recyclerView: RecyclerView
@@ -110,6 +133,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
                 adapter = viewAdapter
 
             }
+            recyclerView.recycledViewPool = viewPool
 
         }
 
@@ -124,28 +148,6 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             roundedTagDesignBG.setColorFilter(tag.color, PorterDuff.Mode.SRC_ATOP)
 
 
-        }
-
-    }
-
-    inner class TagListAdapter(private val tagList: ArrayList<Tag>, private val context: Activity) :
-            RecyclerView.Adapter<InventoryListAdapter.ViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-            val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.inventory_tag_item, parent, false)
-
-            return ViewHolder(itemView)
-        }
-
-
-        override fun onBindViewHolder(holder: InventoryListAdapter.ViewHolder, position: Int) {
-           holder.bindTags(tagList[position])
-        }
-
-        override fun getItemCount(): Int {
-           return  tagList.size
         }
 
     }
