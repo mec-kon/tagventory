@@ -3,19 +3,23 @@ package de.mec_kon.tagventory.first_fragment
 import android.app.Fragment
 import android.graphics.Color.rgb
 import android.os.Bundle
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
+import android.widget.LinearLayout
 import android.widget.SearchView
+import android.widget.TextView
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.adapter.FilterExpanderAdapter
 import de.mec_kon.tagventory.first_fragment.adapter.InventoryListAdapter
 import de.mec_kon.tagventory.first_fragment.datastructure.Filter
 import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
+import kotlin.math.exp
 
 
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
@@ -79,7 +83,11 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         }
 
 
+       val filterExpander = FilterExpanderAdapter(view, inflater, activity)
+        filterExpander.listeners()
+        filterExpander.createTagList(tagList3)
 
+/*
         ////////// create filter element //////////
         val header = arrayListOf("")
         val children = arrayListOf("1", "2")
@@ -91,7 +99,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         val xmlFilterElement: ExpandableListView?
         xmlFilterElement = view.findViewById(R.id.filter_element) as ExpandableListView
         xmlFilterElement.setAdapter(filterAdapter)
-
+*/
 
 
         return view

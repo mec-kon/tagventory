@@ -2,128 +2,109 @@ package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
 import android.graphics.PorterDuff
+import android.support.v7.recyclerview.R.attr.layoutManager
+import android.support.v7.widget.CardView
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseExpandableListAdapter
-import android.widget.LinearLayout
 import android.widget.TextView
 import de.mec_kon.tagventory.R
-import de.mec_kon.tagventory.first_fragment.datastructure.Filter
+import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
+import kotlinx.android.synthetic.main.inventory_tag_item.view.*
 
-class FilterExpanderAdapter(private val context: Activity,private val listOfHeaderData: ArrayList<String>,private val hashMapOfChildData: HashMap<String,ArrayList<String>>,
-                            private val filters:Filter): BaseExpandableListAdapter() {
 
-    lateinit var xmlOnRequired:LinearLayout
-    lateinit var xmlOnAvoided:LinearLayout
+class FilterExpanderAdapter(private val view:View, private val inflater: LayoutInflater, private val context: Activity) {
 
-    override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
+    val xmlFilterCardView = view.findViewById<View>(R.id.filter) as CardView
+    val xmlFilterContent = inflater.inflate(R.layout.filter_expander, xmlFilterCardView, false)
+    val avoidedTextView = xmlFilterContent.findViewById<View>(R.id.filter_avoided) as TextView
+    val requiredTextView = xmlFilterContent.findViewById<View>(R.id.filter_required) as TextView
 
-        val inflater = context.layoutInflater
-        val view = inflater.inflate(R.layout.filter_list_header,  parent, false)
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
-        xmlOnRequired = view.findViewById<View>(R.id.filter_header_on_required) as LinearLayout
-        xmlOnAvoided = view.findViewById<View>(R.id.filter_header_on_avoided) as LinearLayout
-        val xmlNumOfRequired = view.findViewById<View>(R.id.filter_required_count) as TextView
-        val xmlNumOfAvoided = view.findViewById<View>(R.id.filter_avoided_count) as TextView
-
-        xmlNumOfRequired.text = filters.counterReq.toString()
-        xmlNumOfAvoided.text = filters.counterAvd.toString()
-
-        if (filters.counterReq == 0) xmlOnRequired.removeAllViews()
-        if (filters.counterAvd == 0) xmlOnAvoided.removeAllViews()
-
-        return view
+    init {
+        xmlFilterCardView.addView(xmlFilterContent)
     }
 
-    // number of list elements
-    override fun getGroupCount(): Int {
-        return listOfHeaderData.size
-    }
+    fun listeners () {
+        var expanded = false
+        xmlFilterContent.setOnClickListener { view ->
 
-    // get the current group element
-    override fun getGroup(groupPosition: Int): Any {
-        return listOfHeaderData[groupPosition]
-    }
+            if(!expanded){
+                avoidedTextView.visibility = View.VISIBLE
+                requiredTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.VISIBLE
 
-    override fun getGroupId(groupPosition: Int): Long {
-        return groupPosition.toLong()
-    }
+                expanded = true
+            }
+            else {
+                avoidedTextView.visibility = View.GONE
+                requiredTextView.visibility = View.GONE
+                recyclerView.visibility = View.GONE
+                expanded = false
+            }
 
-
-    override fun hasStableIds(): Boolean {
-        return true
-    }
-
-
-
-    override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-
-        xmlOnRequired.removeAllViews()
-        xmlOnAvoided.removeAllViews()
-
-        val inflater = context.layoutInflater
-        val view = inflater.inflate(R.layout.filter_list_item, parent, false)
-
-        val childTitle: String
-        val tagList: ArrayList<Tag>
-
-
-        ////////// respective TextView //////////
-
-        if (childPosition == 0) {
-            childTitle = context.getString(R.string.str_filter_required_full)
-            tagList = filters.tagsReq
-        } else {
-            childTitle = context.getString(R.string.str_filter_avoided_full)
-            tagList = filters.tagsAvd
         }
-
-        val xmlFilterItemText = view.findViewById<View>(R.id.filter_item_text) as TextView
-        xmlFilterItemText.text = childTitle
+    }
 
 
-        ////////// respective item list //////////
+    fun createTagList (tagList: ArrayList<Tag>){
+        viewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        viewAdapter = TagListAdapter(tagList, context)
 
-        val xmlFilterItemTagList = view.findViewById<View>(R.id.filter_item_taglist) as LinearLayout
 
-        for (i in 0 until tagList.size) {
+        recyclerView = view.findViewById<RecyclerView>(R.id.filter_required_tags).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
 
-            // add placeholder textview
-            val placeholderTextView = TextView(context)
-            placeholderTextView.setPadding(10,0,10,0)
-            xmlFilterItemTagList.addView(placeholderTextView)
+            // use a linear layout manager
+            layoutManager = viewManager
 
-            // add textview
-            val tagView = inflater.inflate(R.layout.inventory_tag_item, null)
-            val xmlTagItem = tagView.findViewById(R.id.tag_item) as TextView
-            xmlTagItem.text = tagList[i].name
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
 
-            val roundedTagDesignBG = xmlTagItem.background
-            roundedTagDesignBG.setColorFilter(tagList[i].color, PorterDuff.Mode.SRC_ATOP)
+        }
+    }
 
-            xmlFilterItemTagList.addView(xmlTagItem)
+    inner class TagListAdapter(private val tagList: ArrayList<Tag>, private val context: Activity) :
+            RecyclerView.Adapter<TagListAdapter.ViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagListAdapter.ViewHolder {
+
+            val itemView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.inventory_tag_item, parent, false)
+
+            return ViewHolder(itemView)
         }
 
 
-        return view
+        override fun onBindViewHolder(holder: TagListAdapter.ViewHolder, position: Int) {
+            holder.bindTags(tagList[position])
+        }
+
+        override fun getItemCount(): Int {
+            return  tagList.size
+        }
+
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+            fun bindTags(tag: Tag) {
+
+                itemView.tag_item.text = tagList[position].name
+                // set tag color
+                val roundedTagDesignBG = itemView.tag_item.background
+                // SRC_ATOP makes the colorFilter overlay the xmlTagItem's background (rounded_tag_design.xml)
+                roundedTagDesignBG.setColorFilter(tag.color, PorterDuff.Mode.SRC_ATOP)
+            }
+
+        }
     }
 
-    override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
-        return true
-    }
-
-    override fun getChildrenCount(groupPosition: Int): Int {
-        //elvis operator
-        return hashMapOfChildData[listOfHeaderData[groupPosition]]?.size ?: 0
-    }
-
-    override fun getChild(groupPosition: Int, childPosition: Int): Any {
-        return hashMapOfChildData[listOfHeaderData[groupPosition]]!![childPosition]
-    }
-
-    override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-        return childPosition.toLong()
-    }
 
 }
