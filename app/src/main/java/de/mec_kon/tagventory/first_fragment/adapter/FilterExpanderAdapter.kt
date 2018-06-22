@@ -2,7 +2,6 @@ package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
 import android.graphics.PorterDuff
-import android.support.v7.recyclerview.R.attr.layoutManager
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import de.mec_kon.tagventory.R
-import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 import kotlinx.android.synthetic.main.inventory_tag_item.view.*
 
@@ -23,9 +21,16 @@ class FilterExpanderAdapter(private val view:View, private val inflater: LayoutI
     val avoidedTextView = xmlFilterContent.findViewById<View>(R.id.filter_avoided) as TextView
     val requiredTextView = xmlFilterContent.findViewById<View>(R.id.filter_required) as TextView
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var recyclerViewRequired: RecyclerView
+    private lateinit var viewAdapterRequired: RecyclerView.Adapter<*>
+    private lateinit var viewManagerRequired: RecyclerView.LayoutManager
+
+
+    private lateinit var recyclerViewAvoided: RecyclerView
+    private lateinit var viewAdapterAvoided: RecyclerView.Adapter<*>
+    private lateinit var viewManagerAvoided: RecyclerView.LayoutManager
+
+
 
     init {
         xmlFilterCardView.addView(xmlFilterContent)
@@ -38,14 +43,16 @@ class FilterExpanderAdapter(private val view:View, private val inflater: LayoutI
             if(!expanded){
                 avoidedTextView.visibility = View.VISIBLE
                 requiredTextView.visibility = View.VISIBLE
-                recyclerView.visibility = View.VISIBLE
+                recyclerViewRequired.visibility = View.VISIBLE
+                recyclerViewAvoided.visibility = View.VISIBLE
 
                 expanded = true
             }
             else {
                 avoidedTextView.visibility = View.GONE
                 requiredTextView.visibility = View.GONE
-                recyclerView.visibility = View.GONE
+                recyclerViewRequired.visibility = View.GONE
+                recyclerViewAvoided.visibility = View.GONE
                 expanded = false
             }
 
@@ -53,22 +60,34 @@ class FilterExpanderAdapter(private val view:View, private val inflater: LayoutI
     }
 
 
-    fun createTagList (tagList: ArrayList<Tag>){
-        viewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        viewAdapter = TagListAdapter(tagList, context)
-
-
-        recyclerView = view.findViewById<RecyclerView>(R.id.filter_required_tags).apply {
+    fun createTagLists (tagListRequired: ArrayList<Tag>, tagListAvoided: ArrayList<Tag>){
+        viewManagerRequired = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        viewAdapterRequired = TagListAdapter(tagListRequired, context)
+        recyclerViewRequired = view.findViewById<RecyclerView>(R.id.filter_required_tags).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
 
             // use a linear layout manager
-            layoutManager = viewManager
+            layoutManager = viewManagerRequired
 
-            // specify an viewAdapter (see also next example)
-            adapter = viewAdapter
+            // specify an viewAdapterRequired (see also next example)
+            adapter = viewAdapterRequired
 
+        }
+
+        viewManagerAvoided = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        viewAdapterAvoided = TagListAdapter(tagListAvoided, context)
+        recyclerViewAvoided = view.findViewById<RecyclerView>(R.id.filter_avoided_tags).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManagerAvoided
+
+            // specify an viewAdapterRequired (see also next example)
+            adapter = viewAdapterAvoided
         }
     }
 

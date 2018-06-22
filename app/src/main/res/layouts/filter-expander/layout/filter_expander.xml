@@ -81,7 +81,8 @@
                     android:id="@+id/filter_avoided_tags"
                     android:scrollbars="none"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"

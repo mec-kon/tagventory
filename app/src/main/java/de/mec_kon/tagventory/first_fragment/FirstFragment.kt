@@ -85,7 +85,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
 
        val filterExpander = FilterExpanderAdapter(view, inflater, activity)
         filterExpander.listeners()
-        filterExpander.createTagList(tagList3)
+        filterExpander.createTagLists(tagList3, tagList1)
 
 /*
         ////////// create filter element //////////
