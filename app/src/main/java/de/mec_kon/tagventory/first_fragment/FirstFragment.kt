@@ -16,6 +16,10 @@ import de.mec_kon.tagventory.first_fragment.adapter.InventoryListAdapter
 import de.mec_kon.tagventory.first_fragment.datastructure.Filter
 import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
+import android.widget.Toast
+import android.view.DragEvent
+import android.content.ClipDescription
+
 
 
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
@@ -89,9 +93,11 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
 
         val filterAdapter = FilterExpanderAdapter(activity, header, filterHashMap, filter1)
         val xmlFilterElement: ExpandableListView?
-        xmlFilterElement = view.findViewById(R.id.filter_element) as ExpandableListView
+        xmlFilterElement = view.findViewById<View>(R.id.filter_element) as ExpandableListView
         xmlFilterElement.setAdapter(filterAdapter)
 
+        val mDragListen = TagDragEventListener()
+        searchBar.setOnDragListener(mDragListen)
 
 
         return view
@@ -125,5 +131,90 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         itemList[position].tagList.add(newTag)
         viewAdapter.notifyItemChanged(position)
     }
+
+
+    inner class TagDragEventListener : View.OnDragListener {
+
+        override fun onDrag(v: View, event: DragEvent): Boolean {
+
+            val action = event.action
+
+            when (action) {
+
+                // start dragging the view
+                DragEvent.ACTION_DRAG_STARTED -> {
+
+                    // determines if this View can accept the dragged data
+                    if (event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+
+                        // returns true to indicate that the View can accept the dragged data.
+                        return true
+                    }
+
+                    // returns false; during the current drag and drop operation, this View will
+                    // not receive events again until ACTION_DRAG_ENDED is sent
+                    return false
+                }
+
+                // dragging the view into the target's boundaries
+                DragEvent.ACTION_DRAG_ENTERED -> {
+
+
+                    return true
+                }
+
+                // ...
+                DragEvent.ACTION_DRAG_LOCATION ->
+                    // ignore this event
+                    return true
+
+                // dragging the view out of the target's boundaries
+                DragEvent.ACTION_DRAG_EXITED -> {
+
+
+                    return true
+                }
+
+                // letting go of the dragged view within the boundaries of the targeted view
+                DragEvent.ACTION_DROP -> {
+
+                    // get the passed object
+                    val receivedTag: Tag = event.localState as Tag
+
+                    searchBar.setQuery(receivedTag.name, false)
+
+                    // returns true; DragEvent.getResult() will return true.
+                    return true
+                }
+
+                // letting go of the dragged view
+                DragEvent.ACTION_DRAG_ENDED -> {
+
+                    // does a getResult() and displays what happened
+                    if (event.result) {
+                        // Toast.makeText(context, "The drop was handled.", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        // Toast.makeText(context, "The drop didn't work.", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                    // returns true; the value is ignored
+                    return true
+                }
+
+
+                else -> {
+                    Toast.makeText(context, "Unknown action type received by OnDragListener", Toast.LENGTH_SHORT)
+                            .show()
+                }
+
+            }
+
+            return false
+        }
+
+    }
+
 
 }
