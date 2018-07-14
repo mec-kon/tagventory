@@ -8,8 +8,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/filter_header_on_required">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/filter_header_text_view"
@@ -34,10 +33,6 @@
             android:textSize="17sp"
             android:text="@string/str_filter_required_small" />
 
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/filter_header_on_avoided">
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +53,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:visibility="gone"
+        android:id="@+id/filter_tag_lists_layout">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -69,37 +70,34 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:text="avoided:"
                 android:id="@+id/filter_avoided" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/filter_avoided_tags"
                 android:scrollbars="none"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:text="required:"
                 android:id="@+id/filter_required" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/filter_required_tags"
                 android:scrollbars="none"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </LinearLayout>

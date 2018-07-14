@@ -18,8 +18,7 @@ class FilterExpanderAdapter(private val view:View, private val inflater: LayoutI
 
     val xmlFilterLinearLayout = view.findViewById<View>(R.id.filter) as LinearLayout
     val xmlFilterContent = inflater.inflate(R.layout.filter_expander, xmlFilterLinearLayout, false)
-    val avoidedTextView = xmlFilterContent.findViewById<View>(R.id.filter_avoided) as TextView
-    val requiredTextView = xmlFilterContent.findViewById<View>(R.id.filter_required) as TextView
+    val tagListsLayout = xmlFilterContent.findViewById<View>(R.id.filter_tag_lists_layout) as LinearLayout
 
     private lateinit var recyclerViewRequired: RecyclerView
     private lateinit var viewAdapterRequired: RecyclerView.Adapter<*>
@@ -41,18 +40,11 @@ class FilterExpanderAdapter(private val view:View, private val inflater: LayoutI
         xmlFilterContent.setOnClickListener { view ->
 
             if(!expanded){
-                avoidedTextView.visibility = View.VISIBLE
-                requiredTextView.visibility = View.VISIBLE
-                recyclerViewRequired.visibility = View.VISIBLE
-                recyclerViewAvoided.visibility = View.VISIBLE
-
+                tagListsLayout.visibility = View.VISIBLE
                 expanded = true
             }
             else {
-                avoidedTextView.visibility = View.GONE
-                requiredTextView.visibility = View.GONE
-                recyclerViewRequired.visibility = View.GONE
-                recyclerViewAvoided.visibility = View.GONE
+                tagListsLayout.visibility = View.GONE
                 expanded = false
             }
 
