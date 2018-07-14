@@ -2,12 +2,12 @@ package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
 import android.graphics.PorterDuff
-import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.inventory_tag_item.view.*
 
 class FilterExpanderAdapter(private val view:View, private val inflater: LayoutInflater, private val context: Activity) {
 
-    val xmlFilterCardView = view.findViewById<View>(R.id.filter) as CardView
-    val xmlFilterContent = inflater.inflate(R.layout.filter_expander, xmlFilterCardView, false)
+    val xmlFilterLinearLayout = view.findViewById<View>(R.id.filter) as LinearLayout
+    val xmlFilterContent = inflater.inflate(R.layout.filter_expander, xmlFilterLinearLayout, false)
     val avoidedTextView = xmlFilterContent.findViewById<View>(R.id.filter_avoided) as TextView
     val requiredTextView = xmlFilterContent.findViewById<View>(R.id.filter_required) as TextView
 
@@ -33,7 +33,7 @@ class FilterExpanderAdapter(private val view:View, private val inflater: LayoutI
 
 
     init {
-        xmlFilterCardView.addView(xmlFilterContent)
+        xmlFilterLinearLayout.addView(xmlFilterContent)
     }
 
     fun listeners () {

@@ -1,113 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/filter_header_on_required">
+
+        <TextView
+            android:id="@+id/filter_header_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/str_filter_keyword"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:id="@+id/filter_required_count" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:textSize="17sp"
+            android:text="@string/str_filter_required_small" />
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/filter_header_on_avoided">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:id="@+id/filter_avoided_count" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:textSize="17sp"
+            android:text="@string/str_filter_avoided_small" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingBottom="8dp">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/filter_header_on_required">
-
-                <TextView
-                    android:id="@+id/filter_header_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/str_filter_keyword"
-                    android:textSize="17sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/filter_required_count" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:textSize="17sp"
-                    android:text="@string/str_filter_required_small" />
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/filter_header_on_avoided">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:id="@+id/filter_avoided_count" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:textSize="17sp"
-                    android:text="@string/str_filter_avoided_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:visibility="gone"
+                android:text="avoided:"
+                android:id="@+id/filter_avoided" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="avoided:"
-                    android:id="@+id/filter_avoided"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/filter_avoided_tags"
-                    android:scrollbars="none"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="required:"
-                    android:id="@+id/filter_required"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/filter_required_tags"
-                    android:scrollbars="none"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filter_avoided_tags"
+                android:scrollbars="none"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="required:"
+                android:id="@+id/filter_required" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filter_required_tags"
+                android:scrollbars="none"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
