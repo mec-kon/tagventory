@@ -46,7 +46,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
                 .inflate(R.layout.single_inventory_list_item, parent, false)
 
         val viewHold = ViewHolder(itemView)
-
+/*
         itemView.setOnLongClickListener({
             inventoryListInterfaceImplementer.onLongClickInvoked(viewHold.adapterPosition)
 
@@ -72,7 +72,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             // means that the event has been handled
             true
         }
-
+*/
         return viewHold
     }
 

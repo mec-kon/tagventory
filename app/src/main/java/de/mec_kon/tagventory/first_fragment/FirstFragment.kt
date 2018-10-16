@@ -21,13 +21,14 @@ import android.content.ClipDescription
 
 
 
-class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
+class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, SearchView.OnQueryTextListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private var itemList = arrayListOf<InventoryItem>()
+    private var resultingItemList = arrayListOf<InventoryItem>()
 
     private lateinit var searchBar: SearchView
 
@@ -35,8 +36,10 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
         searchBar = view.findViewById<SearchView>(R.id.search_field)
+        searchBar.setOnQueryTextListener(this)
         val mDragListen = TagDragEventListener()
         searchBar.setOnDragListener(mDragListen)
+
 
 
         ////////// create inventory list //////////
@@ -50,21 +53,23 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         val tagList2 = arrayListOf<Tag>(tag2, tag4)
         val tagList3 = arrayListOf<Tag>(tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4, tag1, tag2, tag5, tag4)
 
-        val item1 = InventoryItem("test", 1, tagList1)
-        val item2 = InventoryItem("test2", 1, tagList2)
-        val item3 = InventoryItem("test3", 1, tagList3)
-        val item4 = InventoryItem("test4", 1, tagList1)
-        val item5 = InventoryItem("test5", 1, tagList2)
-        val item6 = InventoryItem("test6", 1, tagList3)
-        val item7 = InventoryItem("test7", 1, tagList1)
-        val item8 = InventoryItem("test8", 1, tagList2)
-        val item9 = InventoryItem("test9", 1, tagList3)
+        val item1 = InventoryItem("test", true,1, tagList1)
+        val item2 = InventoryItem("test2andMore", true,1, tagList2)
+        val item3 = InventoryItem("test3More", true,1, tagList3)
+        val item4 = InventoryItem("testandMore", true,1, tagList1)
+        val item5 = InventoryItem("TestAny", true,1, tagList2)
+        val item6 = InventoryItem("AnyTest", true,1, tagList3)
+        val item7 = InventoryItem("TEST7", true,1, tagList1)
+        val item8 = InventoryItem("teSt8", true,1, tagList2)
+        val item9 = InventoryItem("testingAnyMoreand9", true,1, tagList3)
 
         itemList = arrayListOf<InventoryItem>(item1, item2, item3, item4, item5, item6, item7, item8, item9)
-
+        for (i in itemList){
+            resultingItemList.add(i)
+        }
 
         viewManager = LinearLayoutManager(activity)
-        viewAdapter = InventoryListAdapter(itemList, activity)
+        viewAdapter = InventoryListAdapter(resultingItemList, activity)
 
         // set this instance of FirstFragment as the implementer of the viewAdapter's InventoryListInterface
         (viewAdapter as InventoryListAdapter).setInventoryListInterfaceImplementer(this)
@@ -109,11 +114,51 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
     fun addItem(){
         val tagList = arrayListOf<Tag>(Tag("Extra1", rgb(200, 50, 150)),
                 Tag("Additionally2", rgb(20, 180, 150)))
-        val item = InventoryItem("NewlyAdded", 1, tagList)
+        val item = InventoryItem("NewlyAdded", true, 1, tagList)
         itemList.add(item)
+
+        if (searchBar.query == "" || item.name.contains(searchBar.query)) {
+            resultingItemList.add(item)
+        }
+
         viewAdapter.notifyDataSetChanged()
         viewManager.scrollToPosition(itemList.size-1)
     }
+
+
+
+    // OnQueryTextListener implementations
+
+    override fun onQueryTextChange(queryText: String): Boolean {
+
+        resultingItemList.clear()
+
+        if(queryText == ""){
+
+            for(i in itemList) {
+                resultingItemList.add(i)
+            }
+            viewAdapter.notifyDataSetChanged()
+
+        } else {
+
+            for(i in itemList) {
+                if(i.name.contains(queryText)){
+                    resultingItemList.add(i)
+                }
+            }
+            viewAdapter.notifyDataSetChanged()
+
+        }
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(queryText: String): Boolean {
+
+        return true
+    }
+
 
     // InventoryListInterface implementations
 
@@ -134,6 +179,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface {
         itemList[position].tagList.add(newTag)
         viewAdapter.notifyItemChanged(position)
     }
+
 
 
     inner class TagDragEventListener : View.OnDragListener {
