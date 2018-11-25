@@ -24,9 +24,9 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
 
     // declares an interface that delegates handling of onClickListener-events
     interface InventoryListInterface {
-        fun onClickInvoked(position: Int)
-        fun onLongClickInvoked(position: Int)
-        fun onItemAddTag(position: Int, tagName: String)
+        fun onClickInvoked(itemToBeChanged: InventoryItem)
+        fun onLongClickInvoked(itemToBeChanged: InventoryItem)
+        fun onItemAddTag(itemToBeChanged: InventoryItem, tagName: String)
     }
 
     // determines the class instance that implements the InventoryListInterface
@@ -46,17 +46,19 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
                 .inflate(R.layout.single_inventory_list_item, parent, false)
 
         val viewHold = ViewHolder(itemView)
-/*
-        itemView.setOnLongClickListener({
-            inventoryListInterfaceImplementer.onLongClickInvoked(viewHold.adapterPosition)
+
+        itemView.setOnLongClickListener {
+            inventoryListInterfaceImplementer.onLongClickInvoked(items[viewHold.adapterPosition])
 
             // means that the event has been handled and will not invoke any other onClickListeners
             true
-        })
+        }
+/*
+        itemView.setOnClickListener {
+            inventoryListInterfaceImplementer.onClickInvoked(items[viewHold.adapterPosition])
+        }
+*/
 
-        itemView.setOnClickListener({
-            inventoryListInterfaceImplementer.onClickInvoked(viewHold.adapterPosition)
-        })
 
         // set OnEditorActionListener for the item_add_tag_input
 
@@ -66,13 +68,13 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             val newTagName = itemView.item_add_tag_input.text.toString()
 
             if (newTagName != "") {
-                inventoryListInterfaceImplementer.onItemAddTag(viewHold.adapterPosition, newTagName)
+                inventoryListInterfaceImplementer.onItemAddTag(items[viewHold.adapterPosition], newTagName)
             }
 
             // means that the event has been handled
             true
         }
-*/
+
         return viewHold
     }
 
@@ -100,9 +102,12 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             // clear the item_add_tag_input
             itemView.item_add_tag_input.text.clear()
 
+            // set item_add_tag_input color
+            itemView.item_add_tag_input.background.setColorFilter(0xE6E6E6, PorterDuff.Mode.SRC_ATOP)
+
 
             viewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            viewAdapter = TagListAdapter(item.tagList, context)
+            viewAdapter = TagListAdapter(item.tagList)
 
 
             recyclerView = itemView.findViewById<RecyclerView>(R.id.inventory_list_tags).apply {
@@ -137,7 +142,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
     }
 
 
-    inner class TagListAdapter(private val tagList: ArrayList<Tag>, private val context: Activity) :
+    inner class TagListAdapter(private val tagList: ArrayList<Tag>) :
             RecyclerView.Adapter<InventoryListAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -148,9 +153,9 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
             val viewHold = ViewHolder(itemView)
 
 
-            itemView.setOnLongClickListener({
+            itemView.setOnLongClickListener {
 
-                val type: Array<String> = Array(1, {_ -> MIMETYPE_TEXT_PLAIN})
+                val type: Array<String> = Array(1) { MIMETYPE_TEXT_PLAIN}
                 val tagItem: ClipData.Item = ClipData.Item("")
                 val tagDragData = ClipData("Tag", type, tagItem)
 
@@ -165,7 +170,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
                 )
 
                 true
-            })
+            }
 
 
             return viewHold

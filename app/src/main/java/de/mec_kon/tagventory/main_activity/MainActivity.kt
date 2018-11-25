@@ -38,9 +38,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             first.addItem()
         }
 
-
-        Toast.makeText(this, "Hold an item to remove it, tap it to rename it according to the search bar",
-                Toast.LENGTH_LONG).show()
     }
 
     override fun onBackPressed() {
