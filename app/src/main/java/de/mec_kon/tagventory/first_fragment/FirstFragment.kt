@@ -17,10 +17,8 @@ import de.mec_kon.tagventory.first_fragment.datastructure.Tag
 import android.widget.Toast
 import android.view.DragEvent
 import android.content.ClipDescription
-import android.util.Log
 
 import de.mec_kon.tagventory.saves.Saves
-import kotlin.math.log
 
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, SearchView.OnQueryTextListener {
 
@@ -72,7 +70,16 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
         val filterExpander = FilterExpanderAdapter(view, inflater, activity)
         filterExpander.listeners()
-        filterExpander.createTagLists(tagList3, tagList1)
+
+        val exampleTag1 = Tag("ExOne", rgb(255, 0, 20))
+        val exampleTag2 = Tag("ExTwo", rgb(20, 0, 255))
+        val exampleTag3 = Tag("ExThree", rgb(0, 50, 100))
+        val exampleTag4 = Tag("ExFour", rgb(90, 90, 90))
+
+        val exampleTagList1 = arrayListOf(exampleTag1, exampleTag2, exampleTag3)
+        val exampleTagList2 = arrayListOf(exampleTag4, exampleTag1, exampleTag3)
+
+        filterExpander.createTagLists(exampleTagList1, exampleTagList2)
 
 
         return view
