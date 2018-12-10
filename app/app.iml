@@ -25,6 +25,13 @@
       <configuration version="3" platform="JVM 1.6" useProjectSettings="false">
         <compilerSettings />
         <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/build/tmp/kotlin-classes/debug" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/66f9c55d1266ff8eff63857ebd8d4f8c/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/a0ca5d4f076a9ab17aaae77801661074/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/transition-26.1.0.aar/2005724f0fbe67915cb7aaa44ec885d7/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/a7a5b77a812c3a2f128109f83deae01d/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.0.aar/3b0713c026451e7e9273965e86749ab3/jars/classes.jar:/home/linux/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jre7/1.2.71/3dadc3b79b7ef40318e8b41d6ea99bedd95a8b5f/kotlin-stdlib-jre7-1.2.71.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-26.1.0.aar/e94b86fa7beaa53512b607c97fb2de8f/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/cardview-v7-26.1.0.aar/576cf1afa7ce5dd6e5300dbae900f649/jars/classes.jar:/home/linux/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.5/f645ed69d595b24d4cf8b3fbb64cc505bede8829/gson-2.8.5.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.1.0.aar/501dd9ccd0c4d8f9ce1d39566d78cbc6/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.1.0.aar/8e069c3639eac4f243b60243ec4ba31d/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/f14d5977e3d21294e030bff7091d0d05/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-fragment-26.1.0.aar/4443ac6ebe183d256ea7a1fb71382995/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.1.0.aar/80068f1e66464b4ed3bce95fc0b3355d/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.1.0.aar/1770bc92a1e8f0b076d5b7ec1a8158ec/jars/classes.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/9dae31db57e76503e1520b78b93a7b64/jars/classes.jar:/home/linux/.gradle/caches/modules-2/files-2.1/com.android.support/support-annotations/26.1.0/814258103cf26a15fcc26ecce35f5b7d24b73f8/support-annotations-26.1.0.jar:/home/linux/.gradle/caches/modules-2/files-2.1/com.android.support.constraint/constraint-layout-solver/1.1.0/931532e953a477f876f2de18c2e7f16eee01078f/constraint-layout-solver-1.1.0.jar:/home/linux/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.71/d9717625bb3c731561251f8dd2c67a1011d6764c/kotlin-stdlib-1.2.71.jar:/home/linux/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/4c97798dc7fdf94b4a4a3b89355cd272/jars/classes.jar:/home/linux/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.71/ba18ca1aa0e40eb6f1865b324af2f4cbb691c1ec/kotlin-stdlib-common-1.2.71.jar:/home/linux/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/home/linux/.gradle/caches/modules-2/files-2.1/android.arch.lifecycle/common/1.0.0/e414a4cb28434e25c4f6aa71426eb20cf4874ae9/common-1.0.0.jar:/home/linux/.gradle/caches/modules-2/files-2.1/android.arch.core/common/1.0.0/a2d487452376193fc8c103dd2b9bd5f2b1b44563/common-1.0.0.jar:/home/linux/.android-sdk/platforms/android-26/android.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="noReflect" value="true" />
+          <option name="moduleName" value="app_debug" />
+          <option name="addCompilerBuiltIns" value="true" />
+          <option name="loadBuiltInsFromDependencies" value="true" />
           <option name="languageVersion" value="1.2" />
           <option name="apiVersion" value="1.2" />
           <option name="pluginOptions">
@@ -35,8 +42,11 @@
             </array>
           </option>
           <option name="pluginClasspaths">
-            <array />
+            <array>
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.71/bda3ee49317ef7a1e8058de61f91abe94c015538/kotlin-android-extensions-1.2.71.jar" />
+            </array>
           </option>
+          <option name="coroutinesState" value="warn" />
         </compilerArguments>
       </configuration>
     </facet>
@@ -110,6 +120,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/build-info" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
@@ -141,17 +152,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.android.support.test:runner-1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.5@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:transition-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.1.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.71@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-fragment-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.71@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.71@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.squareup:javawriter:2.1.1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.50@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.50@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-media-compat-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-annotations:26.1.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.50@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-v4-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-compat-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
