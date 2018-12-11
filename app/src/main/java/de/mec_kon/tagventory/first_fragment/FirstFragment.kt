@@ -114,7 +114,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         } else {
 
             for(i in itemList) {
-                if(i.name.contains((searchBar.query).toString())){
+                if(i.name.contains((searchBar.query).toString(), ignoreCase = true)){
                     resultingItemList.add(i)
                 }
             }
@@ -162,6 +162,8 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
         itemList[itemList.indexOf(itemToBeChanged)].tagList.add(newTag)
         updateResultingItemList()
+
+        saves.itemList = itemList
     }
 
 
