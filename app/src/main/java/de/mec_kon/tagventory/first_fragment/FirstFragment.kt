@@ -1,6 +1,7 @@
 package de.mec_kon.tagventory.first_fragment
 
 import android.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.graphics.Color.rgb
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -19,6 +20,10 @@ import android.view.DragEvent
 import android.content.ClipDescription
 
 import de.mec_kon.tagventory.saves.Saves
+import kotlinx.android.synthetic.main.add_item_dialog.view.*
+import android.R.id
+import android.widget.Button
+
 
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, SearchView.OnQueryTextListener {
 
@@ -31,7 +36,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
     private lateinit var searchBar: SearchView
 
-    private lateinit var saves:Saves
+    private lateinit var saves: Saves
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_first, container, false)
@@ -81,14 +86,52 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
         filterExpander.createTagLists(exampleTagList1, exampleTagList2)
 
-
         return view
     }
 
-    fun addItem(){
+    fun showAddItemDialog() {
+
+        val viewGroup = view.findViewById<ViewGroup>(android.R.id.content)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.add_item_dialog, viewGroup, false)
+        val builder = AlertDialog.Builder(context)
+
+        val buttonConfirm = dialogView.findViewById<Button>(R.id.edit_item_confirm)
+
+        builder.setView(dialogView)
+        val editItemDialog = builder.create()
+
+
+        buttonConfirm.setOnClickListener {
+
+            // get input from EditText
+            val newItemName = dialogView.edit_item_name.text.toString()
+            val itemCounterUsage = dialogView.edit_item_counter.text.toString()
+
+            var newItemCount = 0
+            if (itemCounterUsage != "") {
+                newItemCount = Integer.valueOf(itemCounterUsage)
+            }
+
+            if (newItemName != "") {
+                addItem(newItemName, newItemCount)
+                editItemDialog.dismiss()
+            }
+
+        }
+
+
+        editItemDialog.show()
+
+    }
+
+
+    private fun addItem(itemName: String, itemCounter: Int){
+
         val tagList = arrayListOf(Tag("Extra1", rgb(200, 50, 150)),
                 Tag("Additionally2", rgb(20, 180, 150)))
-        val item = InventoryItem("NewlyAdded", true, 1, tagList)
+
+        val item = InventoryItem(itemName, itemCounter, tagList)
+
         itemList.add(item)
 
         if (searchBar.query == "" || item.name.contains(searchBar.query)) {
@@ -99,6 +142,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         viewManager.scrollToPosition(itemList.size-1)
 
         saves.itemList = itemList
+
     }
 
     private fun updateResultingItemList(){
@@ -172,9 +216,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
         override fun onDrag(v: View, event: DragEvent): Boolean {
 
-            val action = event.action
-
-            when (action) {
+            when (event.action) {
 
                 // start dragging the view
                 DragEvent.ACTION_DRAG_STARTED -> {

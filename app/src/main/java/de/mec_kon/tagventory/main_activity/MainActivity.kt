@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         fab.setOnClickListener { _ ->
-            first.addItem()
+            first.showAddItemDialog()
         }
 
     }

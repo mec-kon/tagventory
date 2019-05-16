@@ -14,4 +14,8 @@
 
     <string name="item_add_tag_hint">+</string>
 
+    <string name="str_add_item_dialog_name">Name</string>
+    <string name="str_add_item_dialog_count">Counter</string>
+    <string name="str_add_item_dialog_ok">OK</string>
+
 </resources>

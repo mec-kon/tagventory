@@ -41,7 +41,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
     // recyclerView process
 
     // create new views (invoked by the layout manager) and set their onClickListeners
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryListAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.single_inventory_list_item, parent, false)
 
@@ -79,7 +79,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
     }
 
     // replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: InventoryListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(items[position])
     }
 
@@ -143,7 +143,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
 
 
     inner class TagListAdapter(private val tagList: ArrayList<Tag>) :
-            RecyclerView.Adapter<InventoryListAdapter.ViewHolder>() {
+            RecyclerView.Adapter<ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -177,7 +177,7 @@ class InventoryListAdapter(private val items: ArrayList<InventoryItem>, private 
         }
 
 
-        override fun onBindViewHolder(holder: InventoryListAdapter.ViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
            holder.bindTags(tagList[position])
         }
 
