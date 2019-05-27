@@ -1,16 +1,15 @@
 package de.mec_kon.tagventory.main_activity
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.FirstFragment
+import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -34,8 +33,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         manager.beginTransaction().replace(R.id.fragment, first).commit()
 
 
-        fab.setOnClickListener { _ ->
-            first.showAddItemDialog()
+        fab.setOnClickListener {
+            val newItem = InventoryItem("", 0, arrayListOf())
+            first.showEditItemDialog(newItem, true)
         }
 
     }

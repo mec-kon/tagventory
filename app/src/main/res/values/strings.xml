@@ -17,5 +17,6 @@
     <string name="str_add_item_dialog_name">Name</string>
     <string name="str_add_item_dialog_count">Counter</string>
     <string name="str_add_item_dialog_ok">OK</string>
+    <string name="str_add_item_dialog_delete">Delete</string>
 
 </resources>

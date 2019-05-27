@@ -20,9 +20,9 @@ import android.view.DragEvent
 import android.content.ClipDescription
 
 import de.mec_kon.tagventory.saves.Saves
-import kotlinx.android.synthetic.main.add_item_dialog.view.*
-import android.R.id
+import kotlinx.android.synthetic.main.edit_item_dialog.view.*
 import android.widget.Button
+import de.mec_kon.tagventory.first_fragment.adapter.TagListAdapter
 
 
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, SearchView.OnQueryTextListener {
@@ -30,6 +30,10 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    private lateinit var tagRecyclerView: RecyclerView
+    private lateinit var tagViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var tagViewManager: RecyclerView.LayoutManager
 
     private var itemList = arrayListOf<InventoryItem>()
     private var resultingItemList = arrayListOf<InventoryItem>()
@@ -86,19 +90,51 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
         filterExpander.createTagLists(exampleTagList1, exampleTagList2)
 
+
+
         return view
     }
 
-    fun showAddItemDialog() {
+    fun showEditItemDialog(itemToEdit: InventoryItem, isNew: Boolean) {
 
         val viewGroup = view.findViewById<ViewGroup>(android.R.id.content)
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.add_item_dialog, viewGroup, false)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.edit_item_dialog, viewGroup, false)
         val builder = AlertDialog.Builder(context)
 
+
+        tagViewManager = LinearLayoutManager(activity)
+        tagViewAdapter = TagListAdapter(itemToEdit.tagList)
+        tagRecyclerView = dialogView.findViewById<RecyclerView>(R.id.edit_item_tag_list).apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = tagViewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = tagViewAdapter
+        }
+
+        dialogView.edit_item_name.setText(itemToEdit.name)
+        dialogView.edit_item_counter.setText(itemToEdit.counter.toString())
+
+
         val buttonConfirm = dialogView.findViewById<Button>(R.id.edit_item_confirm)
+        val buttonDelete = dialogView.findViewById<Button>(R.id.edit_item_delete)
 
         builder.setView(dialogView)
         val editItemDialog = builder.create()
+
+        dialogView.edit_item_name.setOnEditorActionListener { _, _, _ ->
+            buttonConfirm.callOnClick()
+            true
+        }
+
+        dialogView.edit_item_counter.setOnEditorActionListener { _, _, _ ->
+            buttonConfirm.callOnClick()
+            true
+        }
 
 
         buttonConfirm.setOnClickListener {
@@ -112,10 +148,41 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
                 newItemCount = Integer.valueOf(itemCounterUsage)
             }
 
-            if (newItemName != "") {
-                addItem(newItemName, newItemCount)
+            if (newItemName != "" && isNew) {                              /////////////////////////////
+                addItem(newItemName, newItemCount, itemToEdit.tagList)     // use custom tagList here //
+                editItemDialog.dismiss()                                   /////////////////////////////
+
+            } else if (newItemName != "" && !isNew) {
+                itemList[itemList.indexOf(itemToEdit)].name = newItemName
+                itemList[itemList.indexOf(itemToEdit)].counter = newItemCount
+
+                ///////////////////////////////
+                // changes to former tagList //
+                ///////////////////////////////
+
+
+                ///////////////////////////////////////
+                // make the following into a method  //
+                ///////////////////////////////////////
+
+                updateResultingItemList()
+                saves.itemList = itemList
+
                 editItemDialog.dismiss()
+
+            } else {
+                Toast.makeText(context, "Please enter an item name", Toast.LENGTH_SHORT).show()
             }
+
+        }
+
+        buttonDelete.setOnClickListener {
+
+            if(!isNew) {
+                itemList.removeAt(itemList.indexOf(itemToEdit))
+                updateResultingItemList()
+            }
+            editItemDialog.dismiss()
 
         }
 
@@ -125,10 +192,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     }
 
 
-    private fun addItem(itemName: String, itemCounter: Int){
-
-        val tagList = arrayListOf(Tag("Extra1", rgb(200, 50, 150)),
-                Tag("Additionally2", rgb(20, 180, 150)))
+    private fun addItem(itemName: String, itemCounter: Int, tagList: ArrayList<Tag>){
 
         val item = InventoryItem(itemName, itemCounter, tagList)
 
@@ -197,8 +261,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     }
 
     override fun onLongClickInvoked(itemToBeChanged: InventoryItem) {
-        itemList.removeAt(itemList.indexOf(itemToBeChanged))
-        updateResultingItemList()
+        showEditItemDialog(itemList[itemList.indexOf(itemToBeChanged)], false)
     }
 
     override fun onItemAddTag(itemToBeChanged: InventoryItem, tagName: String) {

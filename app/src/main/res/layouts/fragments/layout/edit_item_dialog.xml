@@ -2,6 +2,8 @@
 <LinearLayout android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:orientation="vertical"
+              android:descendantFocusability="beforeDescendants"
+              android:focusableInTouchMode="true"
               xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditText
@@ -16,6 +18,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:textSize="17sp"
+            android:inputType="textCapSentences|textAutoCorrect"
             android:imeOptions="actionDone"/>
 
     <EditText
@@ -63,11 +66,29 @@
 
     </LinearLayout>
 
-    <Button
-            android:id="@+id/edit_item_confirm"
-            android:hint="@string/str_add_item_dialog_ok"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="17sp" />
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:layout_marginLeft="4dp"
+                  android:layout_marginRight="4dp"
+                  xmlns:android="http://schemas.android.com/apk/res/android">
+        <Button
+                android:id="@+id/edit_item_delete"
+                android:hint="@string/str_add_item_dialog_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="17sp"/>
+
+        <Button
+                android:id="@+id/edit_item_confirm"
+                android:hint="@string/str_add_item_dialog_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="17sp"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
