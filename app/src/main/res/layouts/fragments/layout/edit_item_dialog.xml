@@ -6,38 +6,8 @@
               android:focusableInTouchMode="true"
               xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditText
-            android:id="@+id/edit_item_name"
-            android:hint="@string/str_add_item_dialog_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textSize="17sp"
-            android:inputType="textCapSentences|textAutoCorrect"
-            android:imeOptions="actionDone"/>
-
-    <EditText
-            android:id="@+id/edit_item_counter"
-            android:hint="@string/str_add_item_dialog_count"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textSize="17sp"
-            android:inputType="number"
-            android:imeOptions="actionDone"/>
-
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
+                  android:layout_height="wrap_content"
                   android:orientation="vertical"
                   android:layout_marginTop="4dp"
                   android:layout_marginBottom="4dp"
@@ -46,28 +16,67 @@
                   xmlns:android="http://schemas.android.com/apk/res/android">
 
         <EditText
-                android:id="@+id/edit_item_add_tag_input"
-                android:hint="@string/item_add_tag_hint"
+                android:id="@+id/edit_item_name"
+                android:hint="@string/str_add_item_dialog_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
+                android:paddingBottom="8dp"
+                android:textSize="17sp"
+                android:inputType="textCapSentences|textAutoCorrect"
+                android:imeOptions="actionDone"/>
+
+        <EditText
+                android:id="@+id/edit_item_counter"
+                android:hint="@string/str_add_item_dialog_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="8dp"
+                android:textSize="17sp"
+                android:inputType="number"
+                android:imeOptions="actionDone"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="2"
+                  android:orientation="vertical"
+                  android:layout_marginTop="4dp"
+                  android:layout_marginBottom="4dp"
+                  android:layout_marginLeft="16dp"
+                  android:layout_marginRight="16dp"
+                  xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <EditText
+                android:id="@+id/edit_item_add_tag_input"
+                android:hint="@string/item_add_tag_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
+                android:layout_marginBottom="4dp"
                 android:textSize="15sp"
                 android:background="@drawable/rounded_tag_design"
                 android:imeOptions="actionDone"
-                android:inputType="textCapSentences|textAutoCorrect"    />
+                android:inputType="textCapSentences|textAutoCorrect"/>
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/edit_item_tag_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
+                  android:layout_height="wrap_content"
                   android:orientation="horizontal"
                   android:layout_marginTop="4dp"
                   android:layout_marginBottom="4dp"
@@ -77,15 +86,17 @@
         <Button
                 android:id="@+id/edit_item_delete"
                 android:hint="@string/str_add_item_dialog_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:textSize="17sp"/>
 
         <Button
                 android:id="@+id/edit_item_confirm"
                 android:hint="@string/str_add_item_dialog_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:textSize="17sp"/>
 
     </LinearLayout>

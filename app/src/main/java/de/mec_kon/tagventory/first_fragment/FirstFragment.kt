@@ -120,6 +120,22 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         dialogView.edit_item_counter.setText(itemToEdit.counter.toString())
 
 
+        dialogView.edit_item_add_tag_input.setOnEditorActionListener { _, _, _ ->
+
+            // get input from EditText
+            val newTagName = dialogView.edit_item_add_tag_input.text.toString()
+
+            if (newTagName != "") {                                                 /////////////////////////
+                onItemAddTag(itemList[itemList.indexOf(itemToEdit)], newTagName)    // crashes on new item //
+                tagViewAdapter.notifyDataSetChanged()                               /////////////////////////
+                dialogView.edit_item_add_tag_input.setText("")
+            }
+
+            // means that the event has been handled
+            true
+        }
+
+
         val buttonConfirm = dialogView.findViewById<Button>(R.id.edit_item_confirm)
         val buttonDelete = dialogView.findViewById<Button>(R.id.edit_item_delete)
 
@@ -267,7 +283,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     override fun onItemAddTag(itemToBeChanged: InventoryItem, tagName: String) {
         val newTag = Tag(tagName, rgb(200, 80, 200))
 
-        itemList[itemList.indexOf(itemToBeChanged)].tagList.add(newTag)
+        itemList[itemList.indexOf(itemToBeChanged)].tagList.add(0, newTag)
         updateResultingItemList()
 
         saves.itemList = itemList
