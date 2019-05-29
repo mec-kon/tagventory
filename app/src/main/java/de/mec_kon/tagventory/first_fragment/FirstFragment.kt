@@ -24,18 +24,29 @@ import kotlinx.android.synthetic.main.edit_item_dialog.view.*
 import android.widget.Button
 import de.mec_kon.tagventory.first_fragment.adapter.TagListAdapter
 
-
+/**
+ * The main fragment on startup.
+ *
+ * The first fragment contains the iconic search bar, filter and item list.
+ *
+ * @see InventoryListAdapter.InventoryListInterface for our own interface
+ * @see SearchView.OnQueryTextListener for android.widget interface
+ */
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, SearchView.OnQueryTextListener {
 
+    // item list
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    // tag list within the editItemDialog
     private lateinit var tagRecyclerView: RecyclerView
     private lateinit var tagViewAdapter: RecyclerView.Adapter<*>
     private lateinit var tagViewManager: RecyclerView.LayoutManager
 
+    // contains every item
     private var itemList = arrayListOf<InventoryItem>()
+    // only contains those items from the itemList, that match the search bar's query
     private var resultingItemList = arrayListOf<InventoryItem>()
 
     private lateinit var searchBar: SearchView
@@ -95,15 +106,29 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         return view
     }
 
+    /**
+     * Launches the dialog for item editing
+     *
+     * This dialog allows to edit the name, counter and tag list of a new or already existing item,
+     * as well as deleting the whole item from the inventoryList.
+     * Any changes to items are discarded if the user does not apply the confirm button.
+     *
+     * @param itemToEdit the InventoryItem that is being edited.
+     * @param isNew indicates, whether the itemToEdit does not yet exist within the inventoryList.
+     */
     fun showEditItemDialog(itemToEdit: InventoryItem, isNew: Boolean) {
 
         val viewGroup = view.findViewById<ViewGroup>(android.R.id.content)
         val dialogView = LayoutInflater.from(context).inflate(R.layout.edit_item_dialog, viewGroup, false)
         val builder = AlertDialog.Builder(context)
 
+        val newTagList = arrayListOf<Tag>()
+        for (i in itemToEdit.tagList) {
+            newTagList.add(i)
+        }
 
         tagViewManager = LinearLayoutManager(activity)
-        tagViewAdapter = TagListAdapter(itemToEdit.tagList)
+        tagViewAdapter = TagListAdapter(newTagList)
         tagRecyclerView = dialogView.findViewById<RecyclerView>(R.id.edit_item_tag_list).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -115,32 +140,29 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
             // specify an viewAdapter (see also next example)
             adapter = tagViewAdapter
         }
-
         dialogView.edit_item_name.setText(itemToEdit.name)
         dialogView.edit_item_counter.setText(itemToEdit.counter.toString())
-
-
-        dialogView.edit_item_add_tag_input.setOnEditorActionListener { _, _, _ ->
-
-            // get input from EditText
-            val newTagName = dialogView.edit_item_add_tag_input.text.toString()
-
-            if (newTagName != "") {                                                 /////////////////////////
-                onItemAddTag(itemList[itemList.indexOf(itemToEdit)], newTagName)    // crashes on new item //
-                tagViewAdapter.notifyDataSetChanged()                               /////////////////////////
-                dialogView.edit_item_add_tag_input.setText("")
-            }
-
-            // means that the event has been handled
-            true
-        }
-
 
         val buttonConfirm = dialogView.findViewById<Button>(R.id.edit_item_confirm)
         val buttonDelete = dialogView.findViewById<Button>(R.id.edit_item_delete)
 
         builder.setView(dialogView)
         val editItemDialog = builder.create()
+
+
+        dialogView.edit_item_add_tag_input.setOnEditorActionListener { _, _, _ ->
+            // get input from EditText
+            val newTagName = dialogView.edit_item_add_tag_input.text.toString()
+
+            if (newTagName != "") {
+                newTagList.add(0, Tag(newTagName, rgb(200, 80, 200)))
+                tagViewAdapter.notifyDataSetChanged()
+                dialogView.edit_item_add_tag_input.setText("")
+            }
+
+            // means that the event has been handled
+            true
+        }
 
         dialogView.edit_item_name.setOnEditorActionListener { _, _, _ ->
             buttonConfirm.callOnClick()
@@ -152,9 +174,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
             true
         }
 
-
         buttonConfirm.setOnClickListener {
-
             // get input from EditText
             val newItemName = dialogView.edit_item_name.text.toString()
             val itemCounterUsage = dialogView.edit_item_counter.text.toString()
@@ -164,18 +184,13 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
                 newItemCount = Integer.valueOf(itemCounterUsage)
             }
 
-            if (newItemName != "" && isNew) {                              /////////////////////////////
-                addItem(newItemName, newItemCount, itemToEdit.tagList)     // use custom tagList here //
-                editItemDialog.dismiss()                                   /////////////////////////////
-
+            if (newItemName != "" && isNew) {
+                addItem(newItemName, newItemCount, newTagList)
+                editItemDialog.dismiss()
             } else if (newItemName != "" && !isNew) {
                 itemList[itemList.indexOf(itemToEdit)].name = newItemName
                 itemList[itemList.indexOf(itemToEdit)].counter = newItemCount
-
-                ///////////////////////////////
-                // changes to former tagList //
-                ///////////////////////////////
-
+                itemList[itemList.indexOf(itemToEdit)].tagList = newTagList
 
                 ///////////////////////////////////////
                 // make the following into a method  //
@@ -185,29 +200,34 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
                 saves.itemList = itemList
 
                 editItemDialog.dismiss()
-
             } else {
                 Toast.makeText(context, "Please enter an item name", Toast.LENGTH_SHORT).show()
             }
-
         }
 
         buttonDelete.setOnClickListener {
-
             if(!isNew) {
                 itemList.removeAt(itemList.indexOf(itemToEdit))
                 updateResultingItemList()
             }
             editItemDialog.dismiss()
-
         }
 
 
         editItemDialog.show()
-
     }
 
-
+    /**
+     * Adds new items into the inventoryList.
+     *
+     * After the item has been added to the inventoryList,
+     * the resultingItemList (which contains all the results for the search query)
+     * is updated accordingly.
+     *
+     * @param itemName the name of the new item.
+     * @param itemCounter the counter for the new item.
+     * @param tagList the item's tag list.
+     */
     private fun addItem(itemName: String, itemCounter: Int, tagList: ArrayList<Tag>){
 
         val item = InventoryItem(itemName, itemCounter, tagList)
@@ -225,6 +245,12 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
     }
 
+    /**
+     * Rebuilds the resultingItemList.
+     *
+     * Finds all items which names match the search query.
+     * If there's no query, every item is added to the list.
+     */
     private fun updateResultingItemList(){
         resultingItemList.clear()
 
@@ -250,7 +276,14 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
 
     // OnQueryTextListener implementations
-
+    /**
+     * Implements onQueryTextChange.
+     *
+     * This function is called whenever the search query is being edited.
+     *
+     * @param queryText the query within the search bar.
+     * @see SearchView.OnQueryTextListener.onQueryTextChange for details
+     */
     override fun onQueryTextChange(queryText: String): Boolean {
 
         updateResultingItemList()
@@ -258,6 +291,14 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         return true
     }
 
+    /**
+     * Implements onQueryTextSubmit.
+     *
+     * This function is called whenever the search query is being submitted.
+     *
+     * @param queryText the query within the search bar.
+     * @see SearchView.OnQueryTextListener.onQueryTextSubmit for details
+     */
     override fun onQueryTextSubmit(queryText: String): Boolean {
 
         return true
@@ -266,7 +307,14 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
 
     // InventoryListInterface implementations
-
+    /**
+     * Implements onClickInvoked.
+     *
+     * This function is called when an item from the resultingItemList has been clicked on.
+     *
+     * @param itemToBeChanged the item within the resultingItemList, which invoked this function.
+     * @see InventoryListAdapter.InventoryListInterface.onClickInvoked for details
+     */
     override fun onClickInvoked(itemToBeChanged: InventoryItem) {
         /*
         if ((searchBar.query).toString() != "") {
@@ -276,10 +324,26 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         */
     }
 
+    /**
+     * Implements onLongClickInvoked.
+     *
+     * This function is called when an item from the resultingItemList has been clicked on and held.
+     *
+     * @param itemToBeChanged the item within the resultingItemList, which invoked this function.
+     * @see InventoryListAdapter.InventoryListInterface.onLongClickInvoked for details
+     */
     override fun onLongClickInvoked(itemToBeChanged: InventoryItem) {
         showEditItemDialog(itemList[itemList.indexOf(itemToBeChanged)], false)
     }
 
+    /**
+     * Implements onItemAddTag.
+     *
+     * This function is called when an item's addTagInput triggers its OnEditorActionListener.
+     *
+     * @param itemToBeChanged the item within the resultingItemList, whose addTagInput invoked this function.
+     * @see InventoryListAdapter.InventoryListInterface.onItemAddTag for details
+     */
     override fun onItemAddTag(itemToBeChanged: InventoryItem, tagName: String) {
         val newTag = Tag(tagName, rgb(200, 80, 200))
 
@@ -290,7 +354,13 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     }
 
 
-
+    /**
+     * Handling for tag dragging events.
+     *
+     * THERE IS NO FUNCTIONALITY WITHIN THIS CLASS YET.
+     *
+     * @see View.OnDragListener for view.View interface
+     */
     inner class TagDragEventListener : View.OnDragListener {
 
         override fun onDrag(v: View, event: DragEvent): Boolean {
