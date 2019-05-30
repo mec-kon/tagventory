@@ -1,120 +1,93 @@
 package de.mec_kon.tagventory.first_fragment.adapter
 
 import android.app.Activity
-import android.graphics.PorterDuff
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import de.mec_kon.tagventory.R
 import de.mec_kon.tagventory.first_fragment.datastructure.Tag
-import kotlinx.android.synthetic.main.inventory_tag_item.view.*
 
-
+/**
+ * Adapter for the tag filter.
+ *
+ * THERE IS NO FUNCTIONALITY WITHIN THE FILTER YET.
+ *
+ * @param inflater
+ * @property view
+ * @property context
+ */
 class FilterExpanderAdapter(private val view:View, inflater: LayoutInflater, private val context: Activity) {
-
     private val xmlFilterLinearLayout = view.findViewById<View>(R.id.filter) as LinearLayout
     private val xmlFilterContent = inflater.inflate(R.layout.filter_expander, xmlFilterLinearLayout, false)
     private val tagListsLayout = xmlFilterContent.findViewById<View>(R.id.filter_tag_lists_layout) as LinearLayout
 
-    private lateinit var recyclerViewRequired: RecyclerView
-    private lateinit var viewAdapterRequired: RecyclerView.Adapter<*>
-    private lateinit var viewManagerRequired: RecyclerView.LayoutManager
+    private lateinit var requiredTagRecyclerView: RecyclerView
+    private lateinit var requiredTagViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var requiredTagViewManager: RecyclerView.LayoutManager
 
-
-    private lateinit var recyclerViewAvoided: RecyclerView
-    private lateinit var viewAdapterAvoided: RecyclerView.Adapter<*>
-    private lateinit var viewManagerAvoided: RecyclerView.LayoutManager
-
-
+    private lateinit var avoidedTagRecyclerView: RecyclerView
+    private lateinit var avoidedTagViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var avoidedTagViewManager: RecyclerView.LayoutManager
 
     init {
         xmlFilterLinearLayout.addView(xmlFilterContent)
     }
 
+    /**
+     * Sets an OnClickListener for the filter.
+     *
+     * This OnClickListener toggles the visibility of the filter
+     * by expanding or collapsing it accordingly.
+     */
     fun listeners () {
         var expanded = false
-        xmlFilterContent.setOnClickListener {
 
+        xmlFilterContent.setOnClickListener {
             if(!expanded){
                 tagListsLayout.visibility = View.VISIBLE
                 expanded = true
-            }
-            else {
+            } else {
                 tagListsLayout.visibility = View.GONE
                 expanded = false
             }
-
         }
+
     }
 
-
+    /**
+     * Make the filter display the corresponding tag lists.
+     *
+     * This function sets up the TagListAdapters for the two tag lists within the filter.
+     *
+     * @param tagListRequired the list that contains the required tags
+     * @param tagListAvoided the list that contains the avoided tags
+     * @see TagListAdapter for the tag lists
+     */
     fun createTagLists (tagListRequired: ArrayList<Tag>, tagListAvoided: ArrayList<Tag>){
-        viewManagerRequired = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        viewAdapterRequired = TagListAdapter(tagListRequired)
-        recyclerViewRequired = view.findViewById<RecyclerView>(R.id.filter_required_tags).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
+        // required tags list
+        requiredTagViewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        requiredTagViewAdapter = TagListAdapter(tagListRequired)
+        requiredTagRecyclerView = view.findViewById<RecyclerView>(R.id.filter_required_tags).apply {
+            // setting to improve performance when layout size of the inventory item list stays fixed
             setHasFixedSize(true)
 
-            // use a linear layout manager
-            layoutManager = viewManagerRequired
-
-            // specify an viewAdapterRequired (see also next example)
-            adapter = viewAdapterRequired
-
+            layoutManager = requiredTagViewManager
+            adapter = requiredTagViewAdapter
         }
-
-        viewManagerAvoided = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        viewAdapterAvoided = TagListAdapter(tagListAvoided)
-        recyclerViewAvoided = view.findViewById<RecyclerView>(R.id.filter_avoided_tags).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
+        // avoided tags list
+        avoidedTagViewManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        avoidedTagViewAdapter = TagListAdapter(tagListAvoided)
+        avoidedTagRecyclerView = view.findViewById<RecyclerView>(R.id.filter_avoided_tags).apply {
+            // setting to improve performance when layout size of the inventory item list stays fixed
             setHasFixedSize(true)
 
-            // use a linear layout manager
-            layoutManager = viewManagerAvoided
-
-            // specify an viewAdapterRequired (see also next example)
-            adapter = viewAdapterAvoided
+            layoutManager = avoidedTagViewManager
+            adapter = avoidedTagViewAdapter
         }
     }
 
-    inner class TagListAdapter(private val tagList: ArrayList<Tag>) :
-            RecyclerView.Adapter<TagListAdapter.ViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-            val itemView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.inventory_tag_item, parent, false)
-
-            return ViewHolder(itemView)
-        }
-
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bindTags(tagList[position])
-        }
-
-        override fun getItemCount(): Int {
-            return  tagList.size
-        }
-
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-            fun bindTags(tag: Tag) {
-
-                itemView.tag_item.text = tagList[this.adapterPosition].name
-                // set tag color
-                val roundedTagDesignBG = itemView.tag_item.background
-                // SRC_ATOP makes the colorFilter overlay the xmlTagItem's background (rounded_tag_design.xml)
-                roundedTagDesignBG.setColorFilter(tag.color, PorterDuff.Mode.SRC_ATOP)
-            }
-
-        }
-    }
 
 
 }
