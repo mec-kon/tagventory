@@ -106,7 +106,7 @@ class FilterExpanderAdapter(private val view:View, inflater: LayoutInflater, pri
 
             fun bindTags(tag: Tag) {
 
-                itemView.tag_item.text = tagList[position].name
+                itemView.tag_item.text = tagList[this.adapterPosition].name
                 // set tag color
                 val roundedTagDesignBG = itemView.tag_item.background
                 // SRC_ATOP makes the colorFilter overlay the xmlTagItem's background (rounded_tag_design.xml)
