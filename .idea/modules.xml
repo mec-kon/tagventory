@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Intellij-tagventory.iml" filepath="$PROJECT_DIR$/Intellij-tagventory.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/tagventory.iml" filepath="$PROJECT_DIR$/tagventory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/tagventory-app.iml" filepath="$PROJECT_DIR$/app/tagventory-app.iml" />
     </modules>
   </component>
 </project>
