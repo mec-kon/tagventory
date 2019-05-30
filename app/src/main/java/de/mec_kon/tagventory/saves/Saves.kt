@@ -7,6 +7,14 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.mec_kon.tagventory.first_fragment.datastructure.InventoryItem
 
+/**
+ * Saving and loading of gson files.
+ *
+ * This is used to keep the current itemList even after closing the app.
+ * Its author(s) may give a detailed documentation of this class in the near future.
+ *
+ * @author mec-kon
+ */
 class Saves(private val context: Activity) {
 
     private val gson = Gson()

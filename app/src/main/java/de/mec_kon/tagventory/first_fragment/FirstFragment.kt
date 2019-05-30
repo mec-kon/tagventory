@@ -27,22 +27,26 @@ import de.mec_kon.tagventory.first_fragment.adapter.TagListAdapter
 /**
  * The main fragment on startup.
  *
- * The first fragment contains the iconic search bar, filter and item list.
+ * The first fragment contains the iconic search bar, filter and inventory item list.
+ * However, rather than the itemList itself, only the resultingItemList,
+ * which contains those elements from the itemList that match the current search bar query,
+ * is displayed to the user.
  *
  * @see InventoryListAdapter.InventoryListInterface for our own interface
  * @see SearchView.OnQueryTextListener for android.widget interface
+ * @see InventoryItem for the itemList's data type
  */
 class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, SearchView.OnQueryTextListener {
 
-    // item list
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    // inventory item list
+    private lateinit var itemRecyclerView: RecyclerView
+    private lateinit var itemViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var itemViewManager: RecyclerView.LayoutManager
 
     // tag list within the editItemDialog
-    private lateinit var tagRecyclerView: RecyclerView
-    private lateinit var tagViewAdapter: RecyclerView.Adapter<*>
-    private lateinit var tagViewManager: RecyclerView.LayoutManager
+    private lateinit var dialogTagRecyclerView: RecyclerView
+    private lateinit var dialogTagViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var dialogTagViewManager: RecyclerView.LayoutManager
 
     // contains every item
     private var itemList = arrayListOf<InventoryItem>()
@@ -56,38 +60,37 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_first, container, false)
 
+        // search bar
         searchBar = view.findViewById(R.id.search_field)
         searchBar.setOnQueryTextListener(this)
         val mDragListen = TagDragEventListener()
         searchBar.setOnDragListener(mDragListen)
 
+        // load saved data into itemList
         saves = Saves(activity)
-
         itemList = saves.itemList
         for (i in itemList){
             resultingItemList.add(i)
         }
 
-        viewManager = LinearLayoutManager(activity)
-        viewAdapter = InventoryListAdapter(resultingItemList, activity)
 
-        // set this instance of FirstFragment as the implementer of the viewAdapter's InventoryListInterface
-        (viewAdapter as InventoryListAdapter).setInventoryListInterfaceImplementer(this)
+        // make the inventory item list display the resultingItemList
+        itemViewManager = LinearLayoutManager(activity)
+        itemViewAdapter = InventoryListAdapter(resultingItemList, activity)
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.inventory_list).apply {
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
+        // set this instance of FirstFragment as the implementer of the itemViewAdapter's InventoryListInterface
+        (itemViewAdapter as InventoryListAdapter).setInventoryListInterfaceImplementer(this)
+
+        itemRecyclerView = view.findViewById<RecyclerView>(R.id.inventory_list).apply {
+            // setting to improve performance when layout size of the inventory item list stays fixed
             setHasFixedSize(true)
 
-            // use a linear layout manager
-            layoutManager = viewManager
-
-            // specify an viewAdapter (see also next example)
-            adapter = viewAdapter
-
+            layoutManager = itemViewManager
+            adapter = itemViewAdapter
         }
 
 
+        // THERE IS NO FUNCTIONALITY WITHIN THE FILTER YET
         val filterExpander = FilterExpanderAdapter(view, inflater, activity)
         filterExpander.listeners()
 
@@ -100,7 +103,6 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         val exampleTagList2 = arrayListOf(exampleTag4, exampleTag1, exampleTag3)
 
         filterExpander.createTagLists(exampleTagList1, exampleTagList2)
-
 
 
         return view
@@ -127,18 +129,18 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
             newTagList.add(i)
         }
 
-        tagViewManager = LinearLayoutManager(activity)
-        tagViewAdapter = TagListAdapter(newTagList)
-        tagRecyclerView = dialogView.findViewById<RecyclerView>(R.id.edit_item_tag_list).apply {
+        dialogTagViewManager = LinearLayoutManager(activity)
+        dialogTagViewAdapter = TagListAdapter(newTagList)
+        dialogTagRecyclerView = dialogView.findViewById<RecyclerView>(R.id.edit_item_tag_list).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             setHasFixedSize(true)
 
             // use a linear layout manager
-            layoutManager = tagViewManager
+            layoutManager = dialogTagViewManager
 
-            // specify an viewAdapter (see also next example)
-            adapter = tagViewAdapter
+            // specify an itemViewAdapter (see also next example)
+            adapter = dialogTagViewAdapter
         }
         dialogView.edit_item_name.setText(itemToEdit.name)
         dialogView.edit_item_counter.setText(itemToEdit.counter.toString())
@@ -156,7 +158,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
             if (newTagName != "") {
                 newTagList.add(0, Tag(newTagName, rgb(200, 80, 200)))
-                tagViewAdapter.notifyDataSetChanged()
+                dialogTagViewAdapter.notifyDataSetChanged()
                 dialogView.edit_item_add_tag_input.setText("")
             }
 
@@ -229,20 +231,20 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
      * @param tagList the item's tag list.
      */
     private fun addItem(itemName: String, itemCounter: Int, tagList: ArrayList<Tag>){
-
+        // create new a item with provided attributes and add it to the itemList
         val item = InventoryItem(itemName, itemCounter, tagList)
-
         itemList.add(item)
 
+        // update the resultingItemList accordingly
         if (searchBar.query == "" || item.name.contains(searchBar.query)) {
             resultingItemList.add(item)
         }
+        itemViewAdapter.notifyDataSetChanged()
 
-        viewAdapter.notifyDataSetChanged()
-        viewManager.scrollToPosition(itemList.size-1)
+        itemViewManager.scrollToPosition(itemList.size-1)
 
+        // save changes to itemList
         saves.itemList = itemList
-
     }
 
     /**
@@ -255,27 +257,27 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         resultingItemList.clear()
 
         if((searchBar.query).toString() == ""){
-
+            // add every item from the itemList, when there is no query
             for(i in itemList) {
                 resultingItemList.add(i)
             }
-            viewAdapter.notifyDataSetChanged()
+            itemViewAdapter.notifyDataSetChanged()
 
         } else {
-
+            // add results from the itemList, when the query matches
             for(i in itemList) {
                 if(i.name.contains((searchBar.query).toString(), ignoreCase = true)){
                     resultingItemList.add(i)
                 }
             }
-            viewAdapter.notifyDataSetChanged()
+            itemViewAdapter.notifyDataSetChanged()
 
         }
     }
 
 
 
-    // OnQueryTextListener implementations
+    //////////////////// OnQueryTextListener implementations ////////////////////
     /**
      * Implements onQueryTextChange.
      *
@@ -285,7 +287,6 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
      * @see SearchView.OnQueryTextListener.onQueryTextChange for details
      */
     override fun onQueryTextChange(queryText: String): Boolean {
-
         updateResultingItemList()
 
         return true
@@ -300,13 +301,13 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
      * @see SearchView.OnQueryTextListener.onQueryTextSubmit for details
      */
     override fun onQueryTextSubmit(queryText: String): Boolean {
-
+        // placeholder
         return true
     }
 
 
 
-    // InventoryListInterface implementations
+    //////////////////// InventoryListInterface implementations ////////////////////
     /**
      * Implements onClickInvoked.
      *
@@ -319,7 +320,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
         /*
         if ((searchBar.query).toString() != "") {
             itemList[itemList.indexOf(itemToBeChanged)].name = (searchBar.query).toString()
-            viewAdapter.notifyDataSetChanged()
+            itemViewAdapter.notifyDataSetChanged()
         }
         */
     }
@@ -345,13 +346,16 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
      * @see InventoryListAdapter.InventoryListInterface.onItemAddTag for details
      */
     override fun onItemAddTag(itemToBeChanged: InventoryItem, tagName: String) {
+        // create new a tag with provided attributes and add it to the passed itemToBeChanged
         val newTag = Tag(tagName, rgb(200, 80, 200))
-
         itemList[itemList.indexOf(itemToBeChanged)].tagList.add(0, newTag)
+
         updateResultingItemList()
 
+        // save changes to itemList
         saves.itemList = itemList
     }
+
 
 
     /**
@@ -364,15 +368,11 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
     inner class TagDragEventListener : View.OnDragListener {
 
         override fun onDrag(v: View, event: DragEvent): Boolean {
-
             when (event.action) {
-
                 // start dragging the view
                 DragEvent.ACTION_DRAG_STARTED -> {
-
                     // determines if this View can accept the dragged data
                     if (event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-
                         // returns true to indicate that the View can accept the dragged data.
                         return true
                     }
@@ -384,8 +384,7 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
                 // dragging the view into the target's boundaries
                 DragEvent.ACTION_DRAG_ENTERED -> {
-
-
+                    // ignore this event
                     return true
                 }
 
@@ -396,14 +395,12 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
                 // dragging the view out of the target's boundaries
                 DragEvent.ACTION_DRAG_EXITED -> {
-
-
+                    // ignore this event
                     return true
                 }
 
                 // letting go of the dragged view within the boundaries of the targeted view
                 DragEvent.ACTION_DROP -> {
-
                     // get the passed object
                     val receivedTag: Tag = event.localState as Tag
 
@@ -415,32 +412,28 @@ class FirstFragment : Fragment(), InventoryListAdapter.InventoryListInterface, S
 
                 // letting go of the dragged view
                 DragEvent.ACTION_DRAG_ENDED -> {
-
                     // does a getResult() and displays what happened
                     if (event.result) {
                         // Toast.makeText(context, "The drop was handled.", Toast.LENGTH_SHORT).show()
-
                     } else {
                         // Toast.makeText(context, "The drop didn't work.", Toast.LENGTH_SHORT).show()
-
                     }
 
                     // returns true; the value is ignored
                     return true
                 }
 
-
                 else -> {
                     Toast.makeText(context, "Unknown action type received by OnDragListener", Toast.LENGTH_SHORT)
                             .show()
                 }
-
             }
 
             return false
         }
 
     }
+
 
 
 }
